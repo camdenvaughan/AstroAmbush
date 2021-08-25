@@ -10,70 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d39d8a64a3a804142a3f9292ff33b537, type: 3}
-  m_Name: Shape
+  m_Name: New Shape Settings
   m_EditorClassIdentifier: 
-  planetRadius: 2.72
-  noiseLayers:
-  - enabled: 1
-    useFirstLayerAsMask: 0
-    noiseSettings:
-      filterType: 0
-      simpleNoiseSettings:
-        stength: 1
-        numLayers: 1
-        baseRoughness: 1
-        roughness: 2
-        persistance: 0.5
-        center: {x: 0, y: 0, z: 0}
-        minValue: 0
-      rigidNoiseSettings:
-        stength: 1
-        numLayers: 1
-        baseRoughness: 1
-        roughness: 2
-        persistance: 0.5
-        center: {x: 0, y: 0, z: 0}
-        minValue: 0
-        weightMultiplier: 0.8
-  - enabled: 1
-    useFirstLayerAsMask: 1
-    noiseSettings:
-      filterType: 0
-      simpleNoiseSettings:
-        stength: 1
-        numLayers: 1
-        baseRoughness: 1
-        roughness: 2
-        persistance: 0.5
-        center: {x: 0, y: 0, z: 0}
-        minValue: 0
-      rigidNoiseSettings:
-        stength: 1
-        numLayers: 1
-        baseRoughness: 1
-        roughness: 2
-        persistance: 0.5
-        center: {x: 0, y: 0, z: 0}
-        minValue: 0
-        weightMultiplier: 0.8
-  - enabled: 1
-    useFirstLayerAsMask: 1
-    noiseSettings:
-      filterType: 1
-      simpleNoiseSettings:
-        stength: 1
-        numLayers: 1
-        baseRoughness: 1
-        roughness: 2
-        persistance: 0.5
-        center: {x: 0, y: 0, z: 0}
-        minValue: 0
-      rigidNoiseSettings:
-        stength: 1
-        numLayers: 1
-        baseRoughness: 1
-        roughness: 2
-        persistance: 0.5
-        center: {x: 0, y: 0, z: 0}
-        minValue: 0
-        weightMultiplier: 0.8
+  planetRadius: 1
+  noiseLayers: []
