@@ -12,5 +12,89 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d39d8a64a3a804142a3f9292ff33b537, type: 3}
   m_Name: Fire-Shape
   m_EditorClassIdentifier: 
-  planetRadius: 1
-  noiseLayers: []
+  planetRadius: 2
+  noiseLayers:
+  - enabled: 1
+    useFirstLayerAsMask: 0
+    noiseSettings:
+      filterType: 1
+      simpleNoiseSettings:
+        stength: 0
+        numLayers: 1
+        baseRoughness: 0
+        roughness: 0
+        persistance: 0
+        center: {x: 0, y: 0, z: 0}
+        minValue: 0
+      rigidNoiseSettings:
+        stength: -0.18
+        numLayers: 5
+        baseRoughness: 1.04
+        roughness: 5.24
+        persistance: 0.45
+        center: {x: 0, y: 0, z: 0}
+        minValue: 0.55
+        weightMultiplier: 0.62
+  - enabled: 0
+    useFirstLayerAsMask: 0
+    noiseSettings:
+      filterType: 0
+      simpleNoiseSettings:
+        stength: 0
+        numLayers: 0
+        baseRoughness: 0
+        roughness: 0
+        persistance: 0
+        center: {x: 0, y: 0, z: 0}
+        minValue: 0
+      rigidNoiseSettings:
+        stength: 0
+        numLayers: 0
+        baseRoughness: 0
+        roughness: 0
+        persistance: 0
+        center: {x: 0, y: 0, z: 0}
+        minValue: 0
+        weightMultiplier: 0
+  - enabled: 0
+    useFirstLayerAsMask: 0
+    noiseSettings:
+      filterType: 0
+      simpleNoiseSettings:
+        stength: 0
+        numLayers: 0
+        baseRoughness: 0
+        roughness: 0
+        persistance: 0
+        center: {x: 0, y: 0, z: 0}
+        minValue: 0
+      rigidNoiseSettings:
+        stength: 0
+        numLayers: 0
+        baseRoughness: 0
+        roughness: 0
+        persistance: 0
+        center: {x: 0, y: 0, z: 0}
+        minValue: 0
+        weightMultiplier: 0
+  - enabled: 0
+    useFirstLayerAsMask: 0
+    noiseSettings:
+      filterType: 0
+      simpleNoiseSettings:
+        stength: 0
+        numLayers: 0
+        baseRoughness: 0
+        roughness: 0
+        persistance: 0
+        center: {x: 0, y: 0, z: 0}
+        minValue: 0
+      rigidNoiseSettings:
+        stength: 0
+        numLayers: 0
+        baseRoughness: 0
+        roughness: 0
+        persistance: 0
+        center: {x: 0, y: 0, z: 0}
+        minValue: 0
+        weightMultiplier: 0

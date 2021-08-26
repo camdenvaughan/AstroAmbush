@@ -27,7 +27,7 @@ public class Planet : MonoBehaviour
     
     private void OnValidate()
     {
-        GeneratePlanet();
+        //GeneratePlanet();
     }
     
     public void SetupPlanet(int resolution, ShapeSettings shapeSettings, ColorSettings colorSettings)
@@ -44,8 +44,10 @@ public class Planet : MonoBehaviour
     }
     void Initialize()
     {
+
         shapeGenerator.UpdateSettings(shapeSettings);
         colorGenerator.UpdateSettings(colorSettings);
+        
         if (meshFilters == null || meshFilters.Length == 0)
         {
             meshFilters = new MeshFilter[6];
@@ -65,7 +67,7 @@ public class Planet : MonoBehaviour
                 meshFilters[i] = meshObj.AddComponent<MeshFilter>();
                 meshFilters[i].sharedMesh = new Mesh();
             }
-
+            
             meshFilters[i].GetComponent<MeshRenderer>().sharedMaterial = colorSettings.planetMaterial;
             terrainFaces[i] = new TerrainFace(shapeGenerator, meshFilters[i].sharedMesh, resolution, directions[i]);
         }

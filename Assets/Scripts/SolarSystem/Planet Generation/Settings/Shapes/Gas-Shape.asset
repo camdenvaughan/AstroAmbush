@@ -12,5 +12,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d39d8a64a3a804142a3f9292ff33b537, type: 3}
   m_Name: Gas-Shape
   m_EditorClassIdentifier: 
-  planetRadius: 1
-  noiseLayers: []
+  planetRadius: 3
+  noiseLayers:
+  - enabled: 1
+    useFirstLayerAsMask: 0
+    noiseSettings:
+      filterType: 0
+      simpleNoiseSettings:
+        stength: 0.31
+        numLayers: 3
+        baseRoughness: -0.9
+        roughness: 0.12
+        persistance: -0.04
+        center: {x: 0, y: 0, z: 0}
+        minValue: 0
+      rigidNoiseSettings:
+        stength: 0.5
+        numLayers: 3
+        baseRoughness: 0.74
+        roughness: 0.48
+        persistance: 0.66
+        center: {x: 0, y: 0, z: 0}
+        minValue: 0
+        weightMultiplier: 0
+  - enabled: 1
+    useFirstLayerAsMask: 1
+    noiseSettings:
+      filterType: 0
+      simpleNoiseSettings:
+        stength: -0.08
+        numLayers: 3
+        baseRoughness: 1
+        roughness: 2.16
+        persistance: 0.35
+        center: {x: 0, y: 0, z: 0}
+        minValue: -12.62
+      rigidNoiseSettings:
+        stength: 0
+        numLayers: 0
+        baseRoughness: 0
+        roughness: 0
+        persistance: 0
+        center: {x: 0, y: 0, z: 0}
+        minValue: 0
+        weightMultiplier: 0
