@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class Planet : MonoBehaviour
 {
@@ -10,25 +11,37 @@ public class Planet : MonoBehaviour
     public int resolution = 10;
 
     public bool autoUpdate = true;
-
+    
+    [HideInInspector] public bool shapeSettingsFoldOut;
+    [HideInInspector] public bool colorSettingsFoldOut;
+    
     public ShapeSettings shapeSettings;
     public ColorSettings colorSettings;
 
-    [HideInInspector] public bool shapeSettingsFoldOut;
-    [HideInInspector] public bool colorSettingsFoldOut;
-
     private ShapeGenerator shapeGenerator = new ShapeGenerator();
     private ColorGenerator colorGenerator = new ColorGenerator();
-    
+
     [SerializeField, HideInInspector]
     private MeshFilter[] meshFilters;
     private TerrainFace[] terrainFaces;
-
+    
     private void OnValidate()
     {
         GeneratePlanet();
     }
-
+    
+    public void SetupPlanet(int resolution, ShapeSettings shapeSettings, ColorSettings colorSettings)
+    {
+        this.resolution = resolution;
+        this.shapeSettings = shapeSettings;
+        this.colorSettings = colorSettings;
+    }
+    public void GeneratePlanet()
+    {
+        Initialize();
+        GenerateMesh();
+        GenerateColors();
+    }
     void Initialize()
     {
         shapeGenerator.UpdateSettings(shapeSettings);
@@ -58,12 +71,6 @@ public class Planet : MonoBehaviour
         }
     }
 
-    public void GeneratePlanet()
-    {
-        Initialize();
-        GenerateMesh();
-        GenerateColors();
-    }
 
     public void OnShapeSettingsUpdated()
     {
