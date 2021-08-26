@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class ColorGenerator
 {
-    private ColorSettings settings;
+    private PlanetSettings settings;
     private Texture2D texture;
     private const int textureRes = 100;
 
-    public void UpdateSettings(ColorSettings settings)
+    public void UpdateSettings(PlanetSettings settings)
     {
         this.settings = settings;
         if (texture == null)

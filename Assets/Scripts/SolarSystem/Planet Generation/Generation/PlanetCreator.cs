@@ -5,14 +5,7 @@ using UnityEngine;
 
 public class PlanetCreator : MonoBehaviour
 {
-    [System.Serializable]
-    private class Settings
-    {
-        public ShapeSettings shapeSettings;
-        public ColorSettings colorSettings;
-    }
-
-    [SerializeField] private Settings[] settings;
+    [SerializeField] private PlanetSettings[] settings;
 
     private int orbitingPlanets;
     void Start()
@@ -20,7 +13,7 @@ public class PlanetCreator : MonoBehaviour
         // Create Sun
         GameObject sunObject = new GameObject("Sun");
         Planet sun = sunObject.AddComponent<Planet>();
-        sun.SetupPlanet(100, settings[0].shapeSettings, settings[0].colorSettings);
+        sun.SetupPlanet(100, settings[0]);
         sun.GeneratePlanet();
 
         orbitingPlanets = Random.Range(1, 5);
@@ -31,7 +24,7 @@ public class PlanetCreator : MonoBehaviour
             GameObject planetObj = new GameObject("Planet " + i);
 
             Planet planet = planetObj.AddComponent<Planet>();
-            planet.SetupPlanet(100, settings[i+1].shapeSettings, settings[i+1].colorSettings);
+            planet.SetupPlanet(100, settings[i+1]);
             planet.GeneratePlanet();
             position.x += (50 * i);
             planetObj.transform.position = position;

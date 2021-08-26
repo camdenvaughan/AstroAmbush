@@ -14,9 +14,8 @@ public class Planet : MonoBehaviour
     
     [HideInInspector] public bool shapeSettingsFoldOut;
     [HideInInspector] public bool colorSettingsFoldOut;
-    
-    public ShapeSettings shapeSettings;
-    public ColorSettings colorSettings;
+
+    public PlanetSettings planetSettings;
 
     private ShapeGenerator shapeGenerator = new ShapeGenerator();
     private ColorGenerator colorGenerator = new ColorGenerator();
@@ -24,17 +23,17 @@ public class Planet : MonoBehaviour
     [SerializeField, HideInInspector]
     private MeshFilter[] meshFilters;
     private TerrainFace[] terrainFaces;
+
     
     private void OnValidate()
     {
-        //GeneratePlanet();
+        GeneratePlanet();
     }
     
-    public void SetupPlanet(int resolution, ShapeSettings shapeSettings, ColorSettings colorSettings)
+    public void SetupPlanet(int resolution, PlanetSettings planetSettings)
     {
         this.resolution = resolution;
-        this.shapeSettings = shapeSettings;
-        this.colorSettings = colorSettings;
+        this.planetSettings = planetSettings;
     }
     public void GeneratePlanet()
     {
@@ -45,8 +44,9 @@ public class Planet : MonoBehaviour
     void Initialize()
     {
 
-        shapeGenerator.UpdateSettings(shapeSettings);
-        colorGenerator.UpdateSettings(colorSettings);
+        shapeGenerator.UpdateSettings(planetSettings);
+        colorGenerator.UpdateSettings(planetSettings);
+
         
         if (meshFilters == null || meshFilters.Length == 0)
         {
@@ -68,7 +68,7 @@ public class Planet : MonoBehaviour
                 meshFilters[i].sharedMesh = new Mesh();
             }
             
-            meshFilters[i].GetComponent<MeshRenderer>().sharedMaterial = colorSettings.planetMaterial;
+            meshFilters[i].GetComponent<MeshRenderer>().sharedMaterial = planetSettings.planetMaterial;
             terrainFaces[i] = new TerrainFace(shapeGenerator, meshFilters[i].sharedMesh, resolution, directions[i]);
         }
     }

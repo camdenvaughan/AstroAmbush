@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class ShapeGenerator
 {
-    private ShapeSettings settings;
-    private INoiseFilter[] noiseFilters;
+    private PlanetSettings settings;
+    private NoiseFilter[] noiseFilters;
     public MinMax elevationMinMax;
 
-    public void UpdateSettings(ShapeSettings settings)
+    public void UpdateSettings(PlanetSettings settings)
     {
         this.settings = settings;
-        noiseFilters = new INoiseFilter[settings.noiseLayers.Length];
+        noiseFilters = new NoiseFilter[settings.noiseLayers.Length];
         for (int i = 0; i < noiseFilters.Length; i++)
         {
-            noiseFilters[i] = NoiseFilterFactory.CreateNoiseFilter(settings.noiseLayers[i].noiseSettings);
+            noiseFilters[i] = new NoiseFilter(settings.noiseLayers[i]);
         }
 
         elevationMinMax = new MinMax();
