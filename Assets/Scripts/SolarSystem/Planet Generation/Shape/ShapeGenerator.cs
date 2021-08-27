@@ -19,7 +19,6 @@ public class ShapeGenerator
 
         elevationMinMax = new MinMax();
     }
-
     public Vector3 CalculatePointOnPlanet(Vector3 pointOnUnitSphere)
     {
         float firstLayerValue = 0;

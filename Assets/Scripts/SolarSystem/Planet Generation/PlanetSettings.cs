@@ -30,6 +30,4 @@ public class PlanetSettings : ScriptableObject
         public Vector3 center;
         public float minValue;
     }
-    
-
 }

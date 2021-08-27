@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using Random = UnityEngine.Random;
 
 public class Planet : MonoBehaviour
 {
@@ -11,41 +12,61 @@ public class Planet : MonoBehaviour
     public int resolution = 10;
 
     public bool autoUpdate = true;
-    
+
     [HideInInspector] public bool shapeSettingsFoldOut;
     [HideInInspector] public bool colorSettingsFoldOut;
 
     public PlanetSettings planetSettings;
 
     private ShapeGenerator shapeGenerator = new ShapeGenerator();
-    private ColorGenerator colorGenerator = new ColorGenerator();
 
     [SerializeField, HideInInspector]
     private MeshFilter[] meshFilters;
     private TerrainFace[] terrainFaces;
 
+    private Vector3 rotationAxis;
+    private float rotationSpeed;
+
+    // Color Generator
+    private Texture2D texture;
+    private const int textureRes = 50;
     
     private void OnValidate()
     {
-        GeneratePlanet();
+        //GeneratePlanet();
     }
     
     public void SetupPlanet(int resolution, PlanetSettings planetSettings)
     {
         this.resolution = resolution;
         this.planetSettings = planetSettings;
+        rotationAxis.x = Random.Range(0, 1.1f);
+        rotationAxis.y = Random.Range(0, 1.1f);
+        rotationAxis.z = Random.Range(0, 1.1f);
+        rotationSpeed = Random.Range(0, 5) / planetSettings.planetRadius;
     }
     public void GeneratePlanet()
     {
         Initialize();
         GenerateMesh();
-        GenerateColors();
+        UpdateColors();
     }
+
+    private void Update()
+    {
+        transform.Rotate(rotationAxis, rotationSpeed * Time.deltaTime);
+    }
+
     void Initialize()
     {
-
+        // Create Noise Filters and Create Elevation Min Max
         shapeGenerator.UpdateSettings(planetSettings);
-        colorGenerator.UpdateSettings(planetSettings);
+        
+        // Generate Texture for Colors
+        if (texture == null)
+        {
+            texture = new Texture2D(textureRes, 1);
+        }
 
         
         if (meshFilters == null || meshFilters.Length == 0)
@@ -74,14 +95,14 @@ public class Planet : MonoBehaviour
     }
 
 
-    public void OnShapeSettingsUpdated()
+    public void OnSettingsUpdated()
     {
         if (autoUpdate)
         {
             Initialize();
-            GenerateMesh();    
+            GenerateMesh();
+            UpdateColors();
         }
-        
     }
 
     public void OnColorSettingsUpdated()
@@ -89,7 +110,7 @@ public class Planet : MonoBehaviour
         if (autoUpdate)
         {
             Initialize();
-            GenerateColors();    
+            UpdateColors();    
         }
     }
 
@@ -99,12 +120,27 @@ public class Planet : MonoBehaviour
         {
             face.ConstructMesh();
         }
-        colorGenerator.UpdateElevation(shapeGenerator.elevationMinMax);
+        UpdateElevation(shapeGenerator.elevationMinMax);
     }
 
-    void GenerateColors()
+    void UpdateColors()
     {
-        colorGenerator.UpdateColors();
+        Color[] colors = new Color[textureRes];
+        for (int i = 0; i < textureRes; i++)
+        {
+            colors[i] = planetSettings.gradient.Evaluate(i / (textureRes - 1f));
+        }
+        texture.SetPixels(colors);
+        texture.Apply();
+        
+        planetSettings.planetMaterial.SetTexture("_texture", texture);
     }
+
+    void UpdateElevation(MinMax elevationMinMax)
+    {
+        planetSettings.planetMaterial.SetVector("_elevationMinMax", new Vector4(elevationMinMax.min, elevationMinMax.max));
+    }
+
+
     
 }

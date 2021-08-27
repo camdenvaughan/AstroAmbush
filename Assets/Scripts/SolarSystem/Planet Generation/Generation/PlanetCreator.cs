@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlanetCreator : MonoBehaviour
 {
+    [SerializeField] private GameObject rotator;
     [SerializeField] private PlanetSettings[] settings;
 
     private int orbitingPlanets;
@@ -16,17 +17,21 @@ public class PlanetCreator : MonoBehaviour
         sun.SetupPlanet(100, settings[0]);
         sun.GeneratePlanet();
 
-        orbitingPlanets = Random.Range(1, 5);
+        orbitingPlanets = settings.Length;
 
         Vector3 position = sunObject.transform.position;
-        for (int i = 1; i < orbitingPlanets + 1; i++)
+        for (int i = 1; i < orbitingPlanets; i++)
         {
+            GameObject orbitPoint = Instantiate(rotator, sunObject.transform.position, Quaternion.identity);
+            
             GameObject planetObj = new GameObject("Planet " + i);
-
+            planetObj.transform.parent = orbitPoint.transform;
             Planet planet = planetObj.AddComponent<Planet>();
-            planet.SetupPlanet(100, settings[i+1]);
+            
+            planet.SetupPlanet(100, settings[i]);
             planet.GeneratePlanet();
-            position.x += (50 * i);
+            
+            position.x += (Random.Range(15, 30) * i);
             planetObj.transform.position = position;
         }
     }
