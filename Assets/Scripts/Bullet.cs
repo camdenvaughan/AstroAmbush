@@ -1,30 +1,34 @@
 ﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class Bullet : MonoBehaviour
 {
-    // Start is called before the first frame update
-    private MeshRenderer meshRenderer;
-    void Start()
+    [SerializeField] private float bulletSpeed;
+    
+
+    private Vector3 position;
+    private void OnEnable()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
-        meshRenderer.enabled = false;
+        Invoke("Disable", 2f);
     }
 
-    public void Fire()
+
+    private void Update()
     {
-        meshRenderer.enabled = true;
-        //StartCoroutine(Shoot());
-        //meshRenderer.enabled = false;
+        transform.Translate(transform.up * bulletSpeed * Time.deltaTime);
     }
 
-    IEnumerator Shoot()
+    private void Disable()
     {
-        for (int i = 0; i < 10; i++)
-        {
-            yield return new WaitForSeconds(.1f);
-        }
+        gameObject.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        CancelInvoke();
     }
 }

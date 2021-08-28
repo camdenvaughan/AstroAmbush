@@ -6,16 +6,24 @@ using UnityEngine.PlayerLoop;
 
 public class Ship_Player : Ship_Base
 {
-    private Gun gun;
+    private BulletPooler bulletPooler;
+    public bool fire;
     private void Start()
     {
         inputController = GetComponent<PlayerInputController>();
-        gun = GetComponentInChildren<Gun>();
+        bulletPooler = GetComponentInChildren<BulletPooler>();
     }
 
     private void Update()
     {
-        if (inputController.fire)
-            gun.Fire();
+        if(inputController.fire)
+        {
+            Debug.Log("Firing");
+            GameObject obj = bulletPooler.GetBullet();
+            obj.transform.rotation = transform.rotation;
+            obj.transform.position = transform.position;
+            obj.SetActive(true);
+            fire = false;
+        }
     }
 }

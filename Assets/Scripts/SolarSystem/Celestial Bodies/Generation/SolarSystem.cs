@@ -24,7 +24,6 @@ public class SolarSystem : MonoBehaviour
         
         for (int i = 0; i < orbitingPlanets; i++)
         {
-            Debug.Log("Start of Loop");
             GameObject orbitPoint = Instantiate(rotator, sunObject.transform.position, Quaternion.identity);
             
             GameObject planetObj = new GameObject("Planet " + i);
@@ -32,9 +31,7 @@ public class SolarSystem : MonoBehaviour
             CelestialBody planet = planetObj.AddComponent<Planet>();
             
             planet.SetupPlanet(100, settings[i]);
-            Debug.Log("Bout to Generate");
             planet.GeneratePlanet();
-            Debug.Log("Hello");
             position.x += (Random.Range(5, 15));
             planetObj.transform.position = position;
         }

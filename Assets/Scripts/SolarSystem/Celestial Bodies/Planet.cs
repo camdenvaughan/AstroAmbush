@@ -18,7 +18,6 @@ public class Planet : CelestialBody
     {
         this.planetSettings = (PlanetSettings)settings;
         shapeGenerator = new PlanetShapeGenerator();
-        Debug.Log("Set up planet");
         base.SetupPlanet(resolution, planetSettings);
     }
 
