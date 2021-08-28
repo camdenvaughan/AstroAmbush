@@ -19,7 +19,7 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(transform.up * bulletSpeed * Time.deltaTime);
+        transform.Translate(Vector3.up * bulletSpeed * Time.deltaTime);
     }
 
     private void Disable()

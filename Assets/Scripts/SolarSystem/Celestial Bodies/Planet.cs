@@ -1,18 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Planet : CelestialBody
 {
-    public bool autoUpdate = true;
-
-    [HideInInspector] public bool shapeSettingsFoldOut;
-
     public PlanetSettings planetSettings;
 
     // Color Generator
     private Texture2D texture;
     private const int textureRes = 50;
+
+    private void OnValidate()
+    {
+        //GeneratePlanet();
+    }
 
     public override void SetupPlanet(int resolution, CelestialSettings settings)
     {
@@ -28,8 +30,10 @@ public class Planet : CelestialBody
 
     protected override void Initialize()
     {
+        shapeGenerator = new PlanetShapeGenerator();
+
         // Create Noise Filters and Create Elevation Min Max
-        shapeGenerator.UpdateSettings(planetSettings);
+        shapeGenerator.UpdateSettings(planetSettings, planetRadius);
         
         // Generate Material
         if (planetSettings.planetMaterial == null)
@@ -68,24 +72,6 @@ public class Planet : CelestialBody
         }
     }
 
-    public void GeneratePlanet()
-    {
-        Initialize();
-        GenerateMesh();
-        UpdateColors();
-    }
-
-    public void OnSettingsUpdated()
-    {
-        if (autoUpdate)
-        {
-            Initialize();
-            GenerateMesh();  
-            UpdateColors();
-        }
-        
-    }
-    
     protected override void GenerateMesh()
     {
         base.GenerateMesh();
@@ -108,5 +94,34 @@ public class Planet : CelestialBody
     void UpdateElevation(MinMax elevationMinMax)
     {
         planetSettings.planetMaterial.SetVector("_elevationMinMax", new Vector4(elevationMinMax.min, elevationMinMax.max));
+    }
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Bullet"))
+        {
+
+            health -= 30f;
+            if (health < 0)
+            {
+                DestroyPlanet();
+            }
+        }
+        else if (other.gameObject.CompareTag("Ship"))
+        {
+            DestroyPlanet();
+        }        
+        else if (other.gameObject.CompareTag("Planet"))
+        {
+            DestroyPlanet();
+        }
+    }
+
+    void DestroyPlanet()
+    {
+        GameObject obj = ObjectPooler.GetExplosionObj();
+        obj.transform.SetPositionAndRotation(transform.position, transform.rotation);
+        obj.SetActive(true);
+        Destroy(gameObject);
     }
 }

@@ -19,7 +19,7 @@ public class Sun : CelestialBody
 
     protected override void Initialize()
     {
-        shapeGenerator.UpdateSettings(sunSettings);
+        shapeGenerator.UpdateSettings(sunSettings, planetRadius);
 
         if (meshFilters == null || meshFilters.Length == 0)
         {

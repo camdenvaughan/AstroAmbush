@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(CelestialBody))]
+[CustomEditor(typeof(Planet))]
 public class PlanetEditor : Editor
 {
     private Planet planet;

@@ -24,16 +24,24 @@ public class CelestialBody : MonoBehaviour
     protected Vector3 rotationAxis;
     protected float rotationSpeed;
 
+    public float planetRadius;
+
+    [SerializeField] protected float health = 100f;
 
 
-    public virtual void SetupPlanet(int resolution, CelestialSettings settings)
+
+    public virtual void SetupPlanet(int resolution,  CelestialSettings settings)
     {
         this.resolution = resolution;
-
+        this.planetRadius = settings.planetRadius;
+        
         rotationAxis.x = Random.Range(0, 1.1f);
         rotationAxis.y = Random.Range(0, 1.1f);
         rotationAxis.z = Random.Range(0, 1.1f);
-        rotationSpeed = Random.Range(0, 5) / settings.planetRadius;
+        rotationSpeed = Random.Range(2, 10) / settings.planetRadius;
+        SphereCollider collider = gameObject.AddComponent<SphereCollider>();
+        collider.radius = settings.planetRadius / 10;
+        collider.isTrigger = true;
     }
     public void GeneratePlanet()
     {
@@ -75,5 +83,6 @@ public class CelestialBody : MonoBehaviour
     {
         Debug.Log("Update Colors not implemented in Child");
     }
+
 
 }

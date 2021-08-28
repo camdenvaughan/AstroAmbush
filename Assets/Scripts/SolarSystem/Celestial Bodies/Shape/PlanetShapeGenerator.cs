@@ -7,9 +7,12 @@ public class PlanetShapeGenerator : IShapeGenerator
     private PlanetSettings settings;
     private NoiseFilter[] noiseFilters;
     public MinMax elevationMinMax;
-    public void UpdateSettings(CelestialSettings settings)
+
+    private float planetRadius;
+    public void UpdateSettings(CelestialSettings settings, float planetRadius)
     {
         this.settings = (PlanetSettings)settings;
+        this.planetRadius = planetRadius;
         noiseFilters = new NoiseFilter[this.settings.noiseLayers.Length];
         for (int i = 0; i < noiseFilters.Length; i++)
         {
@@ -41,7 +44,7 @@ public class PlanetShapeGenerator : IShapeGenerator
             }
         }
 
-        elevation = (settings.planetRadius / 10) * (1 + elevation);
+        elevation = (planetRadius / 10) * (1 + elevation);
         elevationMinMax.AddValue(elevation);
         return pointOnUnitSphere * elevation;
     }

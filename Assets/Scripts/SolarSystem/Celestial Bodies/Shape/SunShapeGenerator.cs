@@ -5,13 +5,15 @@ using UnityEngine;
 public class SunShapeGenerator : IShapeGenerator
 {
     private SunSettings settings;
-    public void UpdateSettings(CelestialSettings settings)
+    private float planetRadius;
+    public void UpdateSettings(CelestialSettings settings, float planetRadius)
     {
         this.settings = (SunSettings)settings;
+        this.planetRadius = planetRadius;
     }
 
     public Vector3 CalculatePointOnPlanet(Vector3 pointOnUnitSphere)
     {
-        return pointOnUnitSphere * settings.planetRadius;
+        return pointOnUnitSphere * planetRadius / 10f;
     }
 }

@@ -6,6 +6,8 @@ using UnityEngine.Serialization;
 [CreateAssetMenu()]
 public class PlanetSettings : CelestialSettings
 {
+    public GameObject explosionObj;
+    
     [Header("Color Settings")]
     public Gradient gradient;
     

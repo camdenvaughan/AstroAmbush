@@ -6,24 +6,23 @@ using UnityEngine.PlayerLoop;
 
 public class Ship_Player : Ship_Base
 {
-    private BulletPooler bulletPooler;
-    public bool fire;
+
+    [SerializeField] private Transform[] guns = new Transform[2];
+    private bool shootFromLeft;
     private void Start()
     {
         inputController = GetComponent<PlayerInputController>();
-        bulletPooler = GetComponentInChildren<BulletPooler>();
     }
 
     private void Update()
     {
         if(inputController.fire)
         {
-            Debug.Log("Firing");
-            GameObject obj = bulletPooler.GetBullet();
-            obj.transform.rotation = transform.rotation;
-            obj.transform.position = transform.position;
+            int gunToggle = shootFromLeft ? 0 : 1;
+            GameObject obj = ObjectPooler.GetBullet();
+            obj.transform.SetPositionAndRotation(guns[gunToggle].position, guns[gunToggle].rotation);
             obj.SetActive(true);
-            fire = false;
+            shootFromLeft = !shootFromLeft;
         }
     }
 }

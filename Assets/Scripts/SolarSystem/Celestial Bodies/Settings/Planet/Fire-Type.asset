@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2e500538ae000a4d91bd9b00df14d07, type: 3}
   m_Name: Fire-Type
   m_EditorClassIdentifier: 
-  planetRadius: 5
+  planetRadius: 15
+  planetShader: {fileID: -6465566751694194690, guid: 8165b2fc94eb6794cb3184a11a21b75b,
+    type: 3}
+  explosionObj: {fileID: 1809363888467413677, guid: 362131a5b5f5cc7428430733799d534a,
+    type: 3}
   gradient:
     serializedVersion: 2
     key0: {r: 1, g: 0, b: 0.055834293, a: 1}
@@ -42,8 +46,6 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 6
     m_NumAlphaKeys: 2
-  planetShader: {fileID: -6465566751694194690, guid: 8165b2fc94eb6794cb3184a11a21b75b,
-    type: 3}
   planetMaterial: {fileID: 0}
   noiseLayers:
   - enabled: 1

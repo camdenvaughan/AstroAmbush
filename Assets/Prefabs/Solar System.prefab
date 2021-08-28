@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2745054836014860094
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2745054836014860088}
+  - component: {fileID: 2745054836014860095}
+  m_Layer: 0
+  m_Name: Solar System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2745054836014860088
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2745054836014860094}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.409078, y: 2.8487296, z: 0.17794418}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2745054836014860095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2745054836014860094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 333568c2844fa2f48ada272441045b53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotator: {fileID: 6290923973995951120, guid: d9da66af22965a842a7cc15fce82b345, type: 3}
+  sunSettings: {fileID: 11400000, guid: 95c5a859e7f73dc48acb6acf56119df2, type: 2}
+  sunLight: {fileID: 4962372709467090077, guid: bec34670dd244314889fdbf11a5b5d4e,
+    type: 3}
+  settings:
+  - {fileID: 11400000, guid: 8962b234dbf38c849b6f2c9d17d903a4, type: 2}
+  - {fileID: 11400000, guid: 430de721eb0d2084dabc0d31ed7a6d95, type: 2}
+  - {fileID: 11400000, guid: ced79287a71ffcd4b8fc6d4df4127ab5, type: 2}
+  - {fileID: 11400000, guid: 699812f37877b034586834edccadbe5c, type: 2}
+  - {fileID: 11400000, guid: 75473c3005f287c4ca24b8608fce4d8d, type: 2}
+  - {fileID: 11400000, guid: 4e13706f6b6841c40bf08957eb8b8541, type: 2}
+  - {fileID: 11400000, guid: 51085df3f63008841a36e24fce7f82b2, type: 2}
