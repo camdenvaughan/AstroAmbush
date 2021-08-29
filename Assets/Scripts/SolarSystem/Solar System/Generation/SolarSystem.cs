@@ -26,12 +26,14 @@ public class SolarSystem : MonoBehaviour
         // Create Sun
         //GameObject sunObject = new GameObject("Sun");
         GameObject sunObject = ObjectPooler.GetSun();
+        sunObject.transform.position = transform.position;
         sunObject.transform.parent = transform;
+
+        sunObject.SetActive(true);
         //CelestialBody sun = sunObject.AddComponent<Sun>();
         //sun.SetupPlanet(100, sunSettings);
         //sun.planetRadius = Random.Range(70f, 100f);
         //sun.GeneratePlanet();
-        sunObject.transform.position = transform.position;
         //Instantiate(sunLight, sun.transform);
         orbitingPlanets = Random.Range(1, settings.Length);
         //ShuffleSettings();
@@ -53,6 +55,8 @@ public class SolarSystem : MonoBehaviour
             //planet.GeneratePlanet();
             position.x += Random.Range(15f, 25f);
             planetObj.transform.position = position;
+            planetObj.SetActive(true);
+
         }
 
     }

@@ -1,8 +1,10 @@
 ﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 
 public class ObjectPooler : MonoBehaviour
@@ -102,7 +104,7 @@ public class ObjectPooler : MonoBehaviour
         for (int i = 0; i < pooledSuns.Count; i++)
         {
             if (!pooledSuns[i].activeInHierarchy)
-                return pooledExplosionObjs[i];
+                return pooledSuns[i];
         }
 
         GameObject obj = CreateSun();
@@ -120,7 +122,7 @@ public class ObjectPooler : MonoBehaviour
         for (int i = 0; i < pooledPlanets.Count; i++)
         {
             if (!pooledPlanets[i].activeInHierarchy)
-                return pooledExplosionObjs[i];
+                return pooledPlanets[i];
         }
 
         GameObject obj = CreatePlanet();
@@ -150,6 +152,18 @@ public class ObjectPooler : MonoBehaviour
         planet.planetRadius = Random.Range(30f, 60f);
         planet.GeneratePlanet();
         return planetObj;
+    }
+
+    public static void DestroyPlanet(GameObject planet)
+    {
+        current.DestroyPlanetImpl(planet);
+        
+    }
+
+    private void DestroyPlanetImpl(GameObject planet)
+    {
+        planet.SetActive(false);
+        planet.transform.parent = transform;
     }
     
 

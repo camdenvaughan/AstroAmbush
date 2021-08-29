@@ -122,6 +122,6 @@ public class Planet : CelestialBody
         GameObject obj = ObjectPooler.GetExplosionObj();
         obj.transform.SetPositionAndRotation(transform.position, transform.rotation);
         obj.SetActive(true);
-        Destroy(gameObject);
+        ObjectPooler.DestroyPlanet(gameObject);
     }
 }

@@ -39,9 +39,16 @@ public class CelestialBody : MonoBehaviour
         rotationAxis.y = Random.Range(0, 1.1f);
         rotationAxis.z = Random.Range(0, 1.1f);
         rotationSpeed = Random.Range(2, 10) / settings.planetRadius;
+
+        gameObject.tag = "Planet";
         SphereCollider collider = gameObject.AddComponent<SphereCollider>();
         collider.radius = settings.planetRadius / 10;
         collider.isTrigger = true;
+
+        Rigidbody rb = gameObject.AddComponent<Rigidbody>();
+        rb.useGravity = false;
+        rb.isKinematic = true;
+        
     }
     public void GeneratePlanet()
     {
