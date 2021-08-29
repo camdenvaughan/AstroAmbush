@@ -158,8 +158,8 @@ public class ObjectPooler : MonoBehaviour
         Instantiate(sunLight, sunObj.transform);
         sunObj.transform.parent = transform;
         Sun sun = sunObj.AddComponent<Sun>();
-        sun.SetupPlanet(50, sunSettings);
         sun.planetRadius = Random.Range(70f, 100f);
+        sun.SetupPlanet(50, sunSettings);
         sun.GeneratePlanet();
         sunObj.tag = "Sun";
         return sunObj;
@@ -171,8 +171,8 @@ public class ObjectPooler : MonoBehaviour
         planetObj.transform.parent = transform;
         Planet planet = planetObj.AddComponent<Planet>();
         int rnd = Random.Range(0, planetSettings.Length);
-        planet.SetupPlanet(75, planetSettings[rnd]);
         planet.planetRadius = Random.Range(30f, 60f);
+        planet.SetupPlanet(75, planetSettings[rnd]);
         planet.GeneratePlanet();
         planetObj.tag = "Planet";
         return planetObj;

@@ -13,11 +13,6 @@ public class Planet : CelestialBody
     [HideInInspector]
     public GameObject orbitPoint;
 
-    private void OnValidate()
-    {
-        //GeneratePlanet();
-    }
-
     public override void SetupPlanet(int resolution, CelestialSettings settings)
     {
         this.planetSettings = (PlanetSettings)settings;

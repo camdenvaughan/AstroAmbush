@@ -28,15 +28,14 @@ public class CelestialBody : MonoBehaviour
     public virtual void SetupPlanet(int resolution,  CelestialSettings settings)
     {
         this.resolution = resolution;
-        this.planetRadius = settings.planetRadius;
-        
+
         rotationAxis.x = Random.Range(0, 1.1f);
         rotationAxis.y = Random.Range(0, 1.1f);
         rotationAxis.z = Random.Range(0, 1.1f);
-        rotationSpeed = Random.Range(2, 10) / settings.planetRadius;
+        rotationSpeed = Random.Range(6, 10) / settings.planetRadius;
         
         SphereCollider collider = gameObject.AddComponent<SphereCollider>();
-        collider.radius = settings.planetRadius / 10;
+        collider.radius = planetRadius / 10;
         collider.isTrigger = true;
 
         Rigidbody rb = gameObject.AddComponent<Rigidbody>();

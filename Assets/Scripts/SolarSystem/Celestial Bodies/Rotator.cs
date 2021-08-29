@@ -7,7 +7,7 @@ public class Rotator : MonoBehaviour
 
     private void Start()
     {
-        rotateSpeed = Random.Range(2f, 7f);
+        rotateSpeed = Random.Range(10f, 20f);
     }
 
     void Update()

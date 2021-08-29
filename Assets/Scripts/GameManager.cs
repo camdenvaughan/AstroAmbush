@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
     private void EndGameImpl()
     {
         gameIsActive = false;
-        float finalScore = startTime - Time.time;
+        float finalScore = Time.time - startTime;
         string minutes = ((int) finalScore / 60).ToString();
         string seconds = (finalScore % 60).ToString("f2");
         timerText.text = minutes + ":" + seconds;
