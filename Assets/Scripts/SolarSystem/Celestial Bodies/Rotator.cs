@@ -11,7 +11,8 @@ public class Rotator : MonoBehaviour
     }
 
     void Update()
-    {
-        transform.Rotate(Vector3.forward, rotateSpeed * Time.deltaTime);
+    {        
+        if (GameManager.GameIsActive())
+            transform.Rotate(Vector3.forward, rotateSpeed * Time.deltaTime);
     }
 }

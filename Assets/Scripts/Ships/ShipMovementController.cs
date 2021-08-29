@@ -17,7 +17,10 @@ public class ShipMovementController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		Move();
+		if (GameManager.GameIsActive())
+			Move();
+		else
+			anim.SetFloat("rotation", 0);
 	}
 
 	private void Move()

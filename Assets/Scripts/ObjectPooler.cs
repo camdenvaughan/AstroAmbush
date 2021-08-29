@@ -1,10 +1,6 @@
-﻿
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Random = UnityEngine.Random;
+
 
 
 public class ObjectPooler : MonoBehaviour
@@ -23,12 +19,16 @@ public class ObjectPooler : MonoBehaviour
     [Header("Planets")]
     [SerializeField] private PlanetSettings[] planetSettings;
     [SerializeField] private int planetAmmount;
+    [SerializeField] private GameObject orbitPoint;
+    [SerializeField] private int orbitPointAmmount;
 
 
     private List<GameObject> pooledBullets = new List<GameObject>();
     private List<GameObject> pooledExplosionObjs = new List<GameObject>();
     private List<GameObject> pooledSuns = new List<GameObject>();
     private List<GameObject> pooledPlanets = new List<GameObject>();
+    private List<GameObject> pooledOrbitPoints = new List<GameObject>();
+    
 
     private void Start()
     {
@@ -47,16 +47,20 @@ public class ObjectPooler : MonoBehaviour
 
         for (int i = 0; i < sunAmmount; i++)
         {
-            GameObject sunObj = CreateSun();
-            sunObj.SetActive(false);
-            pooledSuns.Add(sunObj);
+            pooledSuns.Add(CreateSun());
+            pooledSuns[i].SetActive(false);
         }
 
         for (int i = 0; i < planetAmmount; i++)
         {
-            GameObject planetObj = CreatePlanet();
-            planetObj.SetActive(false);
-            pooledPlanets.Add(planetObj);
+            pooledPlanets.Add(CreatePlanet());
+            pooledPlanets[i].SetActive(false);
+        }
+        
+        for (int i = 0; i < orbitPointAmmount; i++)
+        {
+            pooledOrbitPoints.Add(Instantiate(orbitPoint));
+            pooledOrbitPoints[i].SetActive(false);
         }
         
     }
@@ -130,15 +134,34 @@ public class ObjectPooler : MonoBehaviour
         return obj;
     }
 
+    public static GameObject GetOrbitPoint()
+    {
+        return current.GetOrbitPointImpl();
+    }
+
+    private GameObject GetOrbitPointImpl()
+    {
+        for (int i = 0; i < pooledOrbitPoints.Count; i++)
+        {
+            if (!pooledOrbitPoints[i].activeInHierarchy)
+                return pooledOrbitPoints[i];
+        }
+
+        GameObject obj = Instantiate(orbitPoint, transform);
+        pooledOrbitPoints.Add(obj);
+        return obj;
+    }
+
     private GameObject CreateSun()
     {
         GameObject sunObj = new GameObject("Sun");
+        Instantiate(sunLight, sunObj.transform);
         sunObj.transform.parent = transform;
         Sun sun = sunObj.AddComponent<Sun>();
         sun.SetupPlanet(50, sunSettings);
         sun.planetRadius = Random.Range(70f, 100f);
         sun.GeneratePlanet();
-        Instantiate(sunLight, sunObj.transform);
+        sunObj.tag = "Sun";
         return sunObj;
     }
 
@@ -151,20 +174,34 @@ public class ObjectPooler : MonoBehaviour
         planet.SetupPlanet(75, planetSettings[rnd]);
         planet.planetRadius = Random.Range(30f, 60f);
         planet.GeneratePlanet();
+        planetObj.tag = "Planet";
         return planetObj;
     }
 
-    public static void DestroyPlanet(GameObject planet)
+    public static void DestroyPlanet(GameObject planet, GameObject orbitPoint)
     {
-        current.DestroyPlanetImpl(planet);
+        current.DestroyPlanetImpl(planet, orbitPoint);
         
     }
 
-    private void DestroyPlanetImpl(GameObject planet)
+    private void DestroyPlanetImpl(GameObject planet, GameObject orbitPoint)
     {
         planet.SetActive(false);
         planet.transform.parent = transform;
+        orbitPoint.SetActive(false);
+        orbitPoint.transform.parent = transform;
     }
     
+    public static void DestroySun(GameObject sun)
+    {
+        current.DestroySunImpl(sun);
+        
+    }
+
+    private void DestroySunImpl(GameObject sun)
+    {
+        sun.SetActive(false);
+        sun.transform.parent = transform;
+    }
 
 }

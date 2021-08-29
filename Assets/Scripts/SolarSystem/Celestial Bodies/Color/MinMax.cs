@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class MinMax 
+﻿public class MinMax 
 {
     public float min { get; private set; }
     public float max { get; private set; }

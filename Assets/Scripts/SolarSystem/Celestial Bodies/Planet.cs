@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.SubsystemsImplementation;
 
 public class Planet : CelestialBody
 {
@@ -10,6 +9,9 @@ public class Planet : CelestialBody
     // Color Generator
     private Texture2D texture;
     private const int textureRes = 50;
+
+    [HideInInspector]
+    public GameObject orbitPoint;
 
     private void OnValidate()
     {
@@ -23,9 +25,16 @@ public class Planet : CelestialBody
         base.SetupPlanet(resolution, planetSettings);
     }
 
+    public void SetOrbitPoint(GameObject orbitPoint)
+    {
+        this.orbitPoint = orbitPoint;
+        transform.parent = orbitPoint.transform;
+    }
+
     private void Update()
     {
-        transform.Rotate(rotationAxis, rotationSpeed * Time.deltaTime);
+        if (GameManager.GameIsActive())
+            transform.Rotate(rotationAxis, rotationSpeed * Time.deltaTime);
     }
 
     protected override void Initialize()
@@ -98,30 +107,36 @@ public class Planet : CelestialBody
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Bullet"))
+        switch (other.tag)
         {
-
-            health -= 30f;
-            if (health < 0)
-            {
-                DestroyPlanet();
-            }
-        }
-        else if (other.gameObject.CompareTag("Ship"))
-        {
-            DestroyPlanet();
-        }        
-        else if (other.gameObject.CompareTag("Planet"))
-        {
-            DestroyPlanet();
+            case "Bullet":
+                health -= 30f;
+                if (health < 0)
+                {
+                    DestroyBody(true);
+                }
+                break;
+            case "Planet":
+                DestroyBody(true);
+                break;
+            case "Sun":
+                DestroyBody(true);
+                break;
+            case "Ship":
+                DestroyBody(true);
+                GameManager.EndGame();
+                break;
         }
     }
 
-    void DestroyPlanet()
+    public override void DestroyBody(bool spawnDebris)
     {
-        GameObject obj = ObjectPooler.GetExplosionObj();
-        obj.transform.SetPositionAndRotation(transform.position, transform.rotation);
-        obj.SetActive(true);
-        ObjectPooler.DestroyPlanet(gameObject);
+        if (spawnDebris)
+        {
+            GameObject obj = ObjectPooler.GetExplosionObj();
+            obj.transform.SetPositionAndRotation(transform.position, transform.rotation);
+            obj.SetActive(true);
+        }
+        ObjectPooler.DestroyPlanet(gameObject, orbitPoint);
     }
 }

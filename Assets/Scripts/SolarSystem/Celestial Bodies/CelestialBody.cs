@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.PlayerLoop;
-using Random = UnityEngine.Random;
+﻿using UnityEngine;
+
 
 public class CelestialBody : MonoBehaviour
 {
@@ -39,8 +34,7 @@ public class CelestialBody : MonoBehaviour
         rotationAxis.y = Random.Range(0, 1.1f);
         rotationAxis.z = Random.Range(0, 1.1f);
         rotationSpeed = Random.Range(2, 10) / settings.planetRadius;
-
-        gameObject.tag = "Planet";
+        
         SphereCollider collider = gameObject.AddComponent<SphereCollider>();
         collider.radius = settings.planetRadius / 10;
         collider.isTrigger = true;
@@ -88,8 +82,10 @@ public class CelestialBody : MonoBehaviour
 
     protected virtual void UpdateColors()
     {
-        Debug.Log("Update Colors not implemented in Child");
     }
 
+    public virtual void DestroyBody(bool spawnDebris)
+    {
+    }
 
 }

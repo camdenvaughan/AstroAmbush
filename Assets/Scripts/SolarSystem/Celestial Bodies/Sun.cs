@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class Sun : CelestialBody
@@ -44,9 +43,44 @@ public class Sun : CelestialBody
             terrainFaces[i] = new TerrainFace(shapeGenerator, meshFilters[i].sharedMesh, resolution, directions[i]);
         }
     }
-
-    protected override void UpdateColors()
+    private void OnTriggerEnter(Collider other)
     {
+        switch (other.tag)
+        {
+            case "Sun":
+                Vector3 shipPos = GameManager.GetShipPos();
+                float dist = Vector3.Distance(shipPos, transform.position);
+
+                if (dist > 150f)
+                    return;
+                // Create some type of explosion with noise
+                Invoke("SuperNova", 1.5f);
+                break;
+            case "Ship":
+                // Create Some explosion
+                GameManager.EndGame();
+                break;
+            case "Planet":
+                break;
+        }
     }
-    
+
+    private void SuperNova()
+    {
+        Vector3 shipPos = GameManager.GetShipPos();
+        float dist = Vector3.Distance(shipPos, transform.position);
+
+        if (dist < 25f)
+        {
+            GameManager.EndGame();
+            DestroyBody(false);
+        }
+        transform.parent.position = new Vector3(GameManager.GetShipPos().x + 400f, 0f, 0f);
+    }
+
+    public override void DestroyBody(bool spawnDebris)
+    {
+        CancelInvoke();
+        ObjectPooler.DestroySun(gameObject);
+    }
 }
