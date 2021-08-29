@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
         current.StartGameImpl();
     }
 
-    private void StartGameImpl()
+    private  void StartGameImpl()
     {
         gameIsActive = true;
         startTime = Time.time;
@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
         return current.GameIsActiveImpl();
     }
 
-    private bool GameIsActiveImpl()
+    private  bool GameIsActiveImpl()
     {
         return gameIsActive;
     }
@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
         return current.GetShipPosImpl();
     }
 
-    private Vector3 GetShipPosImpl()
+    private  Vector3 GetShipPosImpl()
     {
         return shipTrans.position;
     }
