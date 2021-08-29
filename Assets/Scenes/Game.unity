@@ -324,7 +324,7 @@ Transform:
   m_GameObject: {fileID: 210281952}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: -0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 91.9}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 50, y: 50, z: 50}
   m_Children:
   - {fileID: 1414848346}
   - {fileID: 714028813}
@@ -372,6 +372,19 @@ MonoBehaviour:
   explosionObj: {fileID: 1809363888467413677, guid: 362131a5b5f5cc7428430733799d534a,
     type: 3}
   explosionAmmount: 15
+  sunSettings: {fileID: 11400000, guid: 95c5a859e7f73dc48acb6acf56119df2, type: 2}
+  sunLight: {fileID: 4962372709467090077, guid: bec34670dd244314889fdbf11a5b5d4e,
+    type: 3}
+  sunAmmount: 8
+  planetSettings:
+  - {fileID: 11400000, guid: 8962b234dbf38c849b6f2c9d17d903a4, type: 2}
+  - {fileID: 11400000, guid: 430de721eb0d2084dabc0d31ed7a6d95, type: 2}
+  - {fileID: 11400000, guid: ced79287a71ffcd4b8fc6d4df4127ab5, type: 2}
+  - {fileID: 11400000, guid: 699812f37877b034586834edccadbe5c, type: 2}
+  - {fileID: 11400000, guid: 75473c3005f287c4ca24b8608fce4d8d, type: 2}
+  - {fileID: 11400000, guid: 4e13706f6b6841c40bf08957eb8b8541, type: 2}
+  - {fileID: 11400000, guid: 51085df3f63008841a36e24fce7f82b2, type: 2}
+  planetAmmount: 15
 --- !u!4 &407774545
 Transform:
   m_ObjectHideFlags: 0

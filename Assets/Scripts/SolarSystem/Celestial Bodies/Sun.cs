@@ -5,17 +5,16 @@ using UnityEngine;
 public class Sun : CelestialBody
 {
     private SunSettings sunSettings;
+
     public override void SetupPlanet(int resolution, CelestialSettings settings)
     {
         base.SetupPlanet(resolution, settings);
         sunSettings = (SunSettings)settings;
         shapeGenerator = new SunShapeGenerator();
+
     }
 
-    private void Update()
-    {
-        transform.Rotate(rotationAxis, rotationSpeed * Time.deltaTime);
-    }
+
 
     protected override void Initialize()
     {

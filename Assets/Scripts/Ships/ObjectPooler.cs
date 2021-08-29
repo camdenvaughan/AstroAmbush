@@ -1,20 +1,32 @@
-﻿using System;
+﻿
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
+
 public class ObjectPooler : MonoBehaviour
 {
     public static ObjectPooler current;
+    [Header("Bullets")]
     [SerializeField] private GameObject bulletObj;
     [SerializeField] private int bulletAmmount;
+    [Header("Planet Debris")]
     [SerializeField] private GameObject explosionObj;
     [SerializeField] private int explosionAmmount;
+    [Header("Suns")]
+    [SerializeField] private SunSettings sunSettings;
+    [SerializeField] private GameObject sunLight;
+    [SerializeField] private int sunAmmount;
+    [Header("Planets")]
+    [SerializeField] private PlanetSettings[] planetSettings;
+    [SerializeField] private int planetAmmount;
 
 
     private List<GameObject> pooledBullets = new List<GameObject>();
     private List<GameObject> pooledExplosionObjs = new List<GameObject>();
+    private List<GameObject> pooledSuns = new List<GameObject>();
+    private List<GameObject> pooledPlanets = new List<GameObject>();
 
     private void Start()
     {
@@ -29,6 +41,20 @@ public class ObjectPooler : MonoBehaviour
         {
            pooledExplosionObjs.Add(Instantiate(explosionObj, transform)); 
            pooledExplosionObjs[i].SetActive(false);
+        }
+
+        for (int i = 0; i < sunAmmount; i++)
+        {
+            GameObject sunObj = CreateSun();
+            sunObj.SetActive(false);
+            pooledSuns.Add(sunObj);
+        }
+
+        for (int i = 0; i < planetAmmount; i++)
+        {
+            GameObject planetObj = CreatePlanet();
+            planetObj.SetActive(false);
+            pooledPlanets.Add(planetObj);
         }
         
     }
@@ -66,5 +92,65 @@ public class ObjectPooler : MonoBehaviour
         pooledExplosionObjs.Add(obj);
         return obj;
     }
+
+    public static GameObject GetSun()
+    {
+        return current.GetSunImpl();
+    }
+    private GameObject GetSunImpl()
+    {
+        for (int i = 0; i < pooledSuns.Count; i++)
+        {
+            if (!pooledSuns[i].activeInHierarchy)
+                return pooledExplosionObjs[i];
+        }
+
+        GameObject obj = CreateSun();
+        pooledSuns.Add(obj);
+        return obj;
+    }
+
+    public static GameObject GetPlanet()
+    {
+        return current.GetPlanetImpl();
+    }
+
+    private GameObject GetPlanetImpl()
+    {
+        for (int i = 0; i < pooledPlanets.Count; i++)
+        {
+            if (!pooledPlanets[i].activeInHierarchy)
+                return pooledExplosionObjs[i];
+        }
+
+        GameObject obj = CreatePlanet();
+        pooledPlanets.Add(obj);
+        return obj;
+    }
+
+    private GameObject CreateSun()
+    {
+        GameObject sunObj = new GameObject("Sun");
+        sunObj.transform.parent = transform;
+        Sun sun = sunObj.AddComponent<Sun>();
+        sun.SetupPlanet(50, sunSettings);
+        sun.planetRadius = Random.Range(70f, 100f);
+        sun.GeneratePlanet();
+        Instantiate(sunLight, sunObj.transform);
+        return sunObj;
+    }
+
+    private GameObject CreatePlanet()
+    {
+        GameObject planetObj = new GameObject("Planet");
+        planetObj.transform.parent = transform;
+        Planet planet = planetObj.AddComponent<Planet>();
+        int rnd = Random.Range(0, planetSettings.Length);
+        planet.SetupPlanet(75, planetSettings[rnd]);
+        planet.planetRadius = Random.Range(30f, 60f);
+        planet.GeneratePlanet();
+        return planetObj;
+    }
+    
 
 }

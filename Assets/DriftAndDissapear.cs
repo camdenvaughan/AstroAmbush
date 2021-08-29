@@ -10,7 +10,7 @@ public class DriftAndDissapear : MonoBehaviour
     [SerializeField] private float speed = 10f;
     void OnEnable()
     {
-        direction = new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)).normalized;
+        direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
         Invoke("Disable", 2f);
     }
 
