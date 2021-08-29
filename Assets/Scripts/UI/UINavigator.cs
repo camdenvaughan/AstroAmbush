@@ -8,8 +8,6 @@ using UnityEngine.Audio;
 
 public class UINavigator : MonoBehaviour
 {
-    [SerializeField] GameObject playSelectUI;
-    [SerializeField] GameObject settingsUI;
     [SerializeField] GameObject titleMenuUI;
     [SerializeField] GameObject pauseUI;
     [SerializeField] GameObject gameOverUI;
@@ -54,8 +52,6 @@ public class UINavigator : MonoBehaviour
 
     private void SetGameTimeUI()
     {
-        playSelectUI.SetActive(false);
-        settingsUI.SetActive(false);
         titleMenuUI.SetActive(false);
         pauseUI.SetActive(false);
         gameOverUI.SetActive(false);
@@ -64,8 +60,6 @@ public class UINavigator : MonoBehaviour
     }
     private void SetTitleUI()
     {
-        playSelectUI.SetActive(false);
-        settingsUI.SetActive(false);
         pauseUI.SetActive(false);
         gameOverUI.SetActive(false);
         gameTimeUI.SetActive(false);
@@ -134,7 +128,6 @@ public class UINavigator : MonoBehaviour
     }
     public void BackFromSettings()
     {
-        settingsUI.SetActive(false);
         if (gameTimeUI.activeSelf)
             pauseUI.SetActive(true);
         else

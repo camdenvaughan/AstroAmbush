@@ -3,11 +3,6 @@ using UnityEngine;
 
 public class PlayerShip : MonoBehaviour
 {
-
-    [Header("Ship Properties")]
-    [SerializeField]
-    private float health = 100.0f;
-    
     private ShipInputController inputController;
     private ShipMovementController movement;
     private Animator anim;
