@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class Ship_Player : MonoBehaviour
+public class PlayerShip : MonoBehaviour
 {
 
     [Header("Ship Properties")]
@@ -9,15 +9,23 @@ public class Ship_Player : MonoBehaviour
     private float health = 100.0f;
     
     private ShipInputController inputController;
+    private ShipMovementController movement;
+    private Animator anim;
     [SerializeField] private Transform[] guns = new Transform[2];
     private bool shootFromLeft;
     private void Start()
     {
         inputController = GetComponent<PlayerInputController>();
+        movement = GetComponent<ShipMovementController>();
     }
 
     private void Update()
     {
+        if (GameManager.GameIsActive())
+            movement.Move();
+        else
+            anim.SetFloat("rotation", 0);
+        
         if(inputController.fire)
         {
             if (!GameManager.GameIsActive())
@@ -28,10 +36,5 @@ public class Ship_Player : MonoBehaviour
             obj.SetActive(true);
             shootFromLeft = !shootFromLeft;
         }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        // End Game
     }
 }

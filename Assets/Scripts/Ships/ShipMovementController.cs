@@ -17,13 +17,10 @@ public class ShipMovementController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if (GameManager.GameIsActive())
-			Move();
-		else
-			anim.SetFloat("rotation", 0);
+
 	}
 
-	private void Move()
+	public void Move()
     {
 		var inputDirection = new Vector3(inputController.horizontal, inputController.vertical, 0);
 		float thrust = Vector3.Dot(inputDirection.normalized, this.transform.up);
