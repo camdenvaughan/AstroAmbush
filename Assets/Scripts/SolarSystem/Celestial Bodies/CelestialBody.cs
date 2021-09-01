@@ -16,10 +16,11 @@ public class CelestialBody : MonoBehaviour
     protected MeshFilter[] meshFilters;
     protected TerrainFace[] terrainFaces;
 
-    protected Vector3 rotationAxis;
-    protected float rotationSpeed;
+    [SerializeField] protected Vector3 rotationAxis;
+    [SerializeField] protected float rotationSpeed;
 
     public float planetRadius;
+    public bool shouldRotateOnSpawn = false;
 
     [SerializeField] protected float health = 100f;
 
@@ -29,11 +30,6 @@ public class CelestialBody : MonoBehaviour
     {
         this.resolution = resolution;
 
-        rotationAxis.x = Random.Range(0, 1.1f);
-        rotationAxis.y = Random.Range(0, 1.1f);
-        rotationAxis.z = Random.Range(0, 1.1f);
-        rotationSpeed = Random.Range(6, 10) / settings.planetRadius;
-        
         SphereCollider collider = gameObject.AddComponent<SphereCollider>();
         collider.radius = planetRadius / 10;
         collider.isTrigger = true;
@@ -41,7 +37,6 @@ public class CelestialBody : MonoBehaviour
         Rigidbody rb = gameObject.AddComponent<Rigidbody>();
         rb.useGravity = false;
         rb.isKinematic = true;
-        
     }
     public void GeneratePlanet()
     {
@@ -52,7 +47,7 @@ public class CelestialBody : MonoBehaviour
 
     private void Update()
     {
-        transform.Rotate(rotationAxis, rotationSpeed * Time.deltaTime);
+        transform.Rotate(rotationAxis, rotationSpeed * Time.deltaTime, Space.World);
     }
 
     protected virtual void Initialize()

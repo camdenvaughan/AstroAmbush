@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerShip : MonoBehaviour
 {
+    [SerializeField] private float radius;
     private ShipInputController inputController;
     private ShipMovementController movement;
     private Animator anim;
@@ -12,6 +13,7 @@ public class PlayerShip : MonoBehaviour
     {
         inputController = GetComponent<PlayerInputController>();
         movement = GetComponent<ShipMovementController>();
+        anim = GetComponent<Animator>();
     }
 
     private void Update()

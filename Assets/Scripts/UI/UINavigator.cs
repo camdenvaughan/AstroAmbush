@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
+using UnityEngine.Serialization;
 
 public class UINavigator : MonoBehaviour
 {
@@ -15,13 +15,10 @@ public class UINavigator : MonoBehaviour
     [SerializeField] CanvasGroup fader;
     [SerializeField] float fadeTime;
 
-    [SerializeField] private Text resultText;
+    public Text timerText;
 
-    [SerializeField] private Button pauseButton;
-
-    [SerializeField] private Toggle cameraToggle;
     [SerializeField] private Toggle fullScreenToggle;
-    [SerializeField] private Dropdown resolutionDropdown;
+    [SerializeField] private Dropdown controlOptions;
     [SerializeField] private Slider volumeSlider;
 
     [SerializeField] private AudioMixer mixer;
@@ -45,8 +42,6 @@ public class UINavigator : MonoBehaviour
             SetTitleUI();
         else if (SceneManager.GetSceneByBuildIndex(1).isLoaded)
             SetGameTimeUI();
-
-        CreateResolutionOptions();
         mixer.SetFloat("volume", Mathf.Log10(PlayerPrefs.GetFloat("volume")) * 20);
     }
 
@@ -56,66 +51,32 @@ public class UINavigator : MonoBehaviour
         pauseUI.SetActive(false);
         gameOverUI.SetActive(false);
         gameTimeUI.SetActive(true);
-        pauseButton.gameObject.SetActive(true);
     }
     private void SetTitleUI()
     {
         pauseUI.SetActive(false);
         gameOverUI.SetActive(false);
         gameTimeUI.SetActive(false);
-        pauseButton.gameObject.SetActive(false);
         titleMenuUI.SetActive(true);
     }
 
     private void SetDependencies()
     {
-        cameraToggle.isOn = PlayerPrefs.GetInt("isCameraFlipOn") == 0;
         fullScreenToggle.isOn = PlayerPrefs.GetInt("isFullScreen") == 0;
         Screen.fullScreen = fullScreenToggle.isOn;
         resolutions = Screen.resolutions;
         volumeSlider.value = PlayerPrefs.GetFloat("volume");
     }
 
-    private void CreateResolutionOptions()
-    {
-        resolutionDropdown.ClearOptions();
-
-        List<string> options = new List<string>();
-        int currentResolutionIndex = 0;
-        for (int i = 0; i < resolutions.Length; i++)
-        {
-            string option = resolutions[i].width + " x " + resolutions[i].height;
-            options.Add(option);
-
-            if (resolutions[i].width == Screen.currentResolution.width &&
-                resolutions[i].height == Screen.currentResolution.height)
-                currentResolutionIndex = i;
-        }
-
-        resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = (currentResolutionIndex);
-        resolutionDropdown.RefreshShownValue();
-    }
-
     public void OnGameFinished(string winner)
     {
         gameOverUI.SetActive(true);
-        resultText.text = string.Format("{0} won", winner);
+        timerText.text = string.Format("{0} won", winner);
     }
-
-    public void Stalemate()
-    {
-        gameOverUI.SetActive(true);
-        resultText.text = string.Format("Stalemate");
-    }
+    
     protected virtual void OnPauseStateChanged()
     {
         PauseStateChanged?.Invoke(this, EventArgs.Empty);
-    }
-
-    public void TogglePauseVisibility()
-    {
-        pauseButton.gameObject.SetActive(!pauseButton.gameObject.activeSelf);
     }
 
     public void HideUI(GameObject hideUI)
@@ -138,20 +99,10 @@ public class UINavigator : MonoBehaviour
     {
         StartCoroutine(FadeOut(index));
     }
-
-    public void OnCameraToggle()
-    {
-        if (cameraToggle.isOn)
-            PlayerPrefs.SetInt("isCameraFlipOn", 0);
-        else
-            PlayerPrefs.SetInt("isCameraFlipOn", 1);
-    }
+    
     public void OnFullScreenToggle()
     {
-        if (fullScreenToggle.isOn)
-            PlayerPrefs.SetInt("isFullScreen", 0);
-        else
-            PlayerPrefs.SetInt("isFullScreen", 1);
+        PlayerPrefs.SetInt("isFullScreen", fullScreenToggle.isOn ? 0 : 1);
         Screen.fullScreen = fullScreenToggle.isOn;
     }
 
@@ -178,7 +129,7 @@ public class UINavigator : MonoBehaviour
 
     private IEnumerator FadeIn()
 	{
-		while (fader.alpha != 0f)
+		while (fader.alpha > 0f)
 		{
             fader.alpha -= Time.deltaTime / fadeTime;
             yield return null;
@@ -188,7 +139,7 @@ public class UINavigator : MonoBehaviour
     private IEnumerator FadeOut(int index)
     {
         fader.gameObject.SetActive(true);
-        while (fader.alpha != 1f)
+        while (fader.alpha < 1f)
         {
             fader.alpha += Time.deltaTime / fadeTime;
             yield return null;

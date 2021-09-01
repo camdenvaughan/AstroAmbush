@@ -6,9 +6,11 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager current;
 
+    private Canvas canvas;
+
     private bool gameIsActive = false;
 
-    [SerializeField] private Text timerText;
+    private Text timerText;
 
     private float startTime;
 
@@ -16,6 +18,15 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         current = this;
+        
+        SetDependencies();
+    }
+
+    void SetDependencies()
+    {
+        canvas = FindObjectOfType<Canvas>();
+        timerText = canvas.GetComponent<UINavigator>().timerText;
+        
         shipTrans = GameObject.FindGameObjectWithTag("Ship").transform;
     }
 

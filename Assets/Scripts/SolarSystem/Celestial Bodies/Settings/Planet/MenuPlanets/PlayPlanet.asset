@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e500538ae000a4d91bd9b00df14d07, type: 3}
+  m_Name: PlayPlanet
+  m_EditorClassIdentifier: 
+  planetRadius: 20
+  planetShader: {fileID: -6465566751694194690, guid: 8165b2fc94eb6794cb3184a11a21b75b,
+    type: 3}
+  explosionObj: {fileID: 1809363888467413677, guid: 362131a5b5f5cc7428430733799d534a,
+    type: 3}
+  gradient:
+    serializedVersion: 2
+    key0: {r: 0.4575472, g: 0.69839364, b: 1, a: 1}
+    key1: {r: 0.5471698, g: 0.5379261, b: 0.35359558, a: 1}
+    key2: {r: 0.24461739, g: 0.5849056, b: 0.08552865, a: 0}
+    key3: {r: 0.2264151, g: 0.14845142, b: 0.17375472, a: 0}
+    key4: {r: 1, g: 1, b: 1, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 2313
+    ctime2: 11372
+    ctime3: 28334
+    ctime4: 65535
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 5
+    m_NumAlphaKeys: 2
+  planetMaterial: {fileID: 0}
+  noiseLayers:
+  - enabled: 1
+    useFirstLayerAsMask: 0
+    strength: 0.17
+    numLayers: 3
+    baseRoughness: 1.09
+    roughness: 3.26
+    persistence: 0.21
+    center: {x: 0, y: 0, z: 0}
+    minValue: 0.78
+  - enabled: 1
+    useFirstLayerAsMask: 1
+    strength: 1.35
+    numLayers: 4
+    baseRoughness: 10
+    roughness: 5
+    persistence: 0.3
+    center: {x: 0, y: 0, z: 0}
+    minValue: 0.2

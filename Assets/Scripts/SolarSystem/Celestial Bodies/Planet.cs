@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SubsystemsImplementation;
 
@@ -12,6 +13,11 @@ public class Planet : CelestialBody
 
     [HideInInspector]
     public GameObject orbitPoint;
+
+    private void OnValidate()
+    {
+        //GeneratePlanet();
+    }
 
     public override void SetupPlanet(int resolution, CelestialSettings settings)
     {
@@ -28,10 +34,18 @@ public class Planet : CelestialBody
 
     private void Update()
     {
-        if (GameManager.GameIsActive())
-            transform.Rotate(rotationAxis, rotationSpeed * Time.deltaTime);
+        Rotate();
     }
 
+    private void Rotate()
+    {
+        if (!shouldRotateOnSpawn)
+        {
+            shouldRotateOnSpawn = GameManager.GameIsActive();
+            return;
+        }
+        transform.Rotate(rotationAxis, rotationSpeed * Time.deltaTime);
+    }
     protected override void Initialize()
     {
         shapeGenerator = new PlanetShapeGenerator();
@@ -112,6 +126,12 @@ public class Planet : CelestialBody
                 }
                 break;
             case "Planet":
+                Vector3 shipPos = GameManager.GetShipPos();
+                float dist = Vector3.Distance(shipPos, transform.position);
+
+                if (dist > 77f)
+                    return;
+                
                 DestroyBody(true);
                 break;
             case "Sun":

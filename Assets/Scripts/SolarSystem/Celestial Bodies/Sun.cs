@@ -51,7 +51,7 @@ public class Sun : CelestialBody
                 Vector3 shipPos = GameManager.GetShipPos();
                 float dist = Vector3.Distance(shipPos, transform.position);
 
-                if (dist > 150f)
+                if (dist > 77f)
                     return;
                 // Create some type of explosion with noise
                 Invoke("SuperNova", 1.5f);
