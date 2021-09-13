@@ -12,19 +12,22 @@ public class UINavigator : MonoBehaviour
     [SerializeField] GameObject pauseUI;
     [SerializeField] GameObject gameOverUI;
     [SerializeField] GameObject gameTimeUI;
+    [SerializeField] private GameObject settingsScreen;
+    [SerializeField] private GameObject controlsScreen;
+    [SerializeField] private GameObject volumeScreen;
     [SerializeField] CanvasGroup fader;
     [SerializeField] float fadeTime;
 
     public Text timerText;
 
     [SerializeField] private Toggle fullScreenToggle;
-    [SerializeField] private Dropdown controlOptions;
-    [SerializeField] private Slider volumeSlider;
+    [SerializeField] private Slider musicVolumeSlider;
+    [SerializeField] private Slider effectsVolumeSlider;
 
-    [SerializeField] private AudioMixer mixer;
+    [SerializeField] private AudioMixer Mixer;
+    
 
-    Resolution[] resolutions;
-
+    private UIShipHandler uiShipHandler;
 
     public delegate void PauseStateEventHandler(object source, EventArgs args);
 
@@ -42,7 +45,8 @@ public class UINavigator : MonoBehaviour
             SetTitleUI();
         else if (SceneManager.GetSceneByBuildIndex(1).isLoaded)
             SetGameTimeUI();
-        mixer.SetFloat("volume", Mathf.Log10(PlayerPrefs.GetFloat("volume")) * 20);
+        Mixer.SetFloat("musicVolume", Mathf.Log10(PlayerPrefs.GetFloat("musicVolume")) * 20);
+        Mixer.SetFloat("effectsVolume", Mathf.Log10(PlayerPrefs.GetFloat("effectsVolume")) * 20);
     }
 
     private void SetGameTimeUI()
@@ -62,17 +66,13 @@ public class UINavigator : MonoBehaviour
 
     private void SetDependencies()
     {
+        uiShipHandler = GameObject.FindObjectOfType<UIShipHandler>();
         fullScreenToggle.isOn = PlayerPrefs.GetInt("isFullScreen") == 0;
         Screen.fullScreen = fullScreenToggle.isOn;
-        resolutions = Screen.resolutions;
-        volumeSlider.value = PlayerPrefs.GetFloat("volume");
+        musicVolumeSlider.value = PlayerPrefs.GetFloat("musicVolume");
+        effectsVolumeSlider.value = PlayerPrefs.GetFloat("effectsVolume");
     }
-
-    public void OnGameFinished(string winner)
-    {
-        gameOverUI.SetActive(true);
-        timerText.text = string.Format("{0} won", winner);
-    }
+    
     
     protected virtual void OnPauseStateChanged()
     {
@@ -106,15 +106,32 @@ public class UINavigator : MonoBehaviour
         Screen.fullScreen = fullScreenToggle.isOn;
     }
 
-    public void SetVolume(float volume)
+    public void SetMusicVolume(float volume)
     {
-        mixer.SetFloat("volume", Mathf.Log10(volume) * 20);
-        PlayerPrefs.SetFloat("volume", volume);
+        Mixer.SetFloat("musicVolume", Mathf.Log10(volume) * 20);
+        PlayerPrefs.SetFloat("musicVolume", volume);
     }
-    public void SetResolution(int resolutionIndex)
+
+    public void SetEffectVolume(float volume)
     {
-        Resolution resolution = resolutions[resolutionIndex];
-        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        Mixer.SetFloat("effectsVolume", Mathf.Log10(volume) * 20);
+        PlayerPrefs.SetFloat("effectsVolume", volume);
+    }
+
+    public void SetControls(int state)
+    {
+        if (state == 0)
+        {
+            
+        }
+        else if (state == 1)
+        {
+            
+        }
+        else
+        {
+            Debug.Log("int outside of range placed into SetControlsMethod");
+        }
     }
 
     public void ChangePauseState()
@@ -145,5 +162,33 @@ public class UINavigator : MonoBehaviour
             yield return null;
         }
         SceneManager.LoadScene(index);
+    }
+    
+    // Settings
+
+    public void OpenSettings()
+    {
+        uiShipHandler.OpenSettings();
+        MoveToSettingsScreen();
+    }
+    public void MoveToSettingsScreen()
+    {
+        uiShipHandler.MoveCameraToSettingsLoc(settingsScreen);
+    }
+
+    public void MoveToControlsScreen()
+    {
+        uiShipHandler.MoveCameraToControlsLoc(controlsScreen);
+    }
+
+    public void MoveToVolumeScreen()
+    {
+        uiShipHandler.MoveCameraToVolumeLoc(volumeScreen);
+
+    }
+
+    public void CloseSettings()
+    {
+        uiShipHandler.CloseSettings(titleMenuUI);
     }
 }
