@@ -4,9 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
-using UnityEngine.EventSystems;
-using UnityEngine.PlayerLoop;
-using UnityEngine.Serialization;
+
 
 public class UINavigator : MonoBehaviour
 {
@@ -17,21 +15,29 @@ public class UINavigator : MonoBehaviour
     [SerializeField] private GameObject settingsScreen;
     [SerializeField] private GameObject controlsScreen;
     [SerializeField] private GameObject volumeScreen;
+    [SerializeField] private GameObject leaderboardScreen;
     [SerializeField] CanvasGroup fader;
     [SerializeField] float fadeTime;
 
     public Text timerText;
 
-    [SerializeField] private Toggle fullScreenToggle;
+    public Text finalTime;
+    
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider effectsVolumeSlider;
+    [SerializeField] private Text volumePercentage;
+    [SerializeField] private Text effectPercentage;
+
     [SerializeField] private Button mouseControlsButton;
     [SerializeField] private Button keyControlsButton;
+
 
     [SerializeField] private AudioMixer Mixer;
     
 
     private UIShipHandler uiShipHandler;
+
+    private bool isFullScreen;
 
     public delegate void PauseStateEventHandler(object source, EventArgs args);
 
@@ -51,6 +57,7 @@ public class UINavigator : MonoBehaviour
             SetGameTimeUI();
         Mixer.SetFloat("musicVolume", Mathf.Log10(PlayerPrefs.GetFloat("musicVolume")) * 20);
         Mixer.SetFloat("effectsVolume", Mathf.Log10(PlayerPrefs.GetFloat("effectsVolume")) * 20);
+        isFullScreen = PlayerPrefs.GetInt("isFullScreen", 0) == 0;
     }
 
     private void Update()
@@ -64,6 +71,10 @@ public class UINavigator : MonoBehaviour
         titleMenuUI.SetActive(false);
         pauseUI.SetActive(false);
         gameOverUI.SetActive(false);
+        settingsScreen.SetActive(false);
+        controlsScreen.SetActive(false);
+        volumeScreen.SetActive(false);
+        leaderboardScreen.SetActive(false);
         gameTimeUI.SetActive(true);
     }
     private void SetTitleUI()
@@ -71,6 +82,10 @@ public class UINavigator : MonoBehaviour
         pauseUI.SetActive(false);
         gameOverUI.SetActive(false);
         gameTimeUI.SetActive(false);
+        settingsScreen.SetActive(false);
+        controlsScreen.SetActive(false);
+        volumeScreen.SetActive(false);
+        leaderboardScreen.SetActive(false);
         titleMenuUI.SetActive(true);
     }
 
@@ -95,13 +110,6 @@ public class UINavigator : MonoBehaviour
     {
         showUI.SetActive(true);
     }
-    public void BackFromSettings()
-    {
-        if (gameTimeUI.activeSelf)
-            pauseUI.SetActive(true);
-        else
-            titleMenuUI.SetActive(true);
-    }
 
     public void LoadScene(int index)
     {
@@ -110,20 +118,25 @@ public class UINavigator : MonoBehaviour
     
     public void OnFullScreenToggle()
     {
-        PlayerPrefs.SetInt("isFullScreen", fullScreenToggle.isOn ? 0 : 1);
-        Screen.fullScreen = fullScreenToggle.isOn;
+        PlayerPrefs.SetInt("isFullScreen", isFullScreen ? 0 : 1);
+        Screen.fullScreen = isFullScreen;
     }
 
     public void SetMusicVolume(float volume)
     {
         Mixer.SetFloat("musicVolume", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("musicVolume", volume);
+        int percentage = Mathf.RoundToInt(musicVolumeSlider.value * 100);
+        volumePercentage.text = percentage.ToString() + "%";
     }
 
     public void SetEffectVolume(float volume)
     {
         Mixer.SetFloat("effectsVolume", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("effectsVolume", volume);
+        int percentage = Mathf.RoundToInt(effectsVolumeSlider.value * 100);
+        effectPercentage.text = percentage.ToString() + "%";
+
     }
 
     public void SetControls(int state)
@@ -181,6 +194,12 @@ public class UINavigator : MonoBehaviour
         }
         SceneManager.LoadScene(index);
     }
+
+    public void EndGame()
+    {
+        gameTimeUI.SetActive(false);
+        gameOverUI.SetActive(true);
+    }
     
     // Settings
 
@@ -229,5 +248,15 @@ public class UINavigator : MonoBehaviour
         else
             MoveToPauseScreen();
         
+    }
+
+    public void OpenLeaderBoard()
+    {
+        uiShipHandler.OpenLeaderBoard(leaderboardScreen);
+    }
+
+    public void CloseLeaderBoard()
+    {
+        uiShipHandler.CloseLeaderBoard(titleMenuUI);
     }
 }

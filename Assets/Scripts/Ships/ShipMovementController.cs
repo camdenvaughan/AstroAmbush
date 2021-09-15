@@ -13,7 +13,7 @@ public class ShipMovementController : MonoBehaviour {
 		anim = GetComponent<Animator>();
 	}
 
-	public void Move(float horizontal, float vertical)
+	public void Move(float horizontal, float vertical, bool rotate)
     {
 		var inputDirection = new Vector3(horizontal, vertical, 0);
 		float thrust = Vector3.Dot(inputDirection.normalized, this.transform.up);
@@ -24,9 +24,11 @@ public class ShipMovementController : MonoBehaviour {
 			rotationAmount *= 2;
 			thrust = .5f;
 		}
-	    this.transform.position += thrust * inputDirection.magnitude * this.transform.up * velocity * Time.deltaTime;
+		transform.position += thrust * inputDirection.magnitude * this.transform.up * velocity * Time.deltaTime;
 
-		this.transform.rotation = Quaternion.Euler(0, 0, this.transform.rotation.eulerAngles.z - rotationAmount);
-		anim.SetFloat("rotation", rotation);
+		if (rotate)
+			transform.rotation = Quaternion.Euler(0, 0, this.transform.rotation.eulerAngles.z - rotationAmount);
+
+	    anim.SetFloat("rotation", rotation);
     }
 }

@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     private UINavigator uiNav;
 
     private Text timerText;
+    private Text finalText;
 
     private float startTime;
 
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour
     {
         uiNav = FindObjectOfType<UINavigator>();
         timerText = uiNav.timerText;
+        finalText = uiNav.finalTime;
         
         shipTrans = GameObject.FindGameObjectWithTag("Ship").transform;
     }
@@ -90,8 +92,10 @@ public class GameManager : MonoBehaviour
     {
         current.state = GameState.Ended;
         float finalScore = Time.time - current.startTime;
+        finalScore += current.cachedTime;
         string minutes = ((int) finalScore / 60).ToString();
         string seconds = (finalScore % 60).ToString("f2");
-        current.timerText.text = minutes + ":" + seconds;
+        current.finalText.text = minutes + ":" + seconds;
+        current.uiNav.EndGame();
     }
 }

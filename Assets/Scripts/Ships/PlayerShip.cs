@@ -29,20 +29,24 @@ public class PlayerShip : MonoBehaviour
     private void Update()
     {
         if (GameManager.GetState() == GameManager.GameState.Active)
-            movement.Move(activeController.horizontal, activeController.vertical);
-        else
-            anim.SetFloat("rotation", 0);
-        
-        if(activeController.fire)
         {
-            if (GameManager.GetState() == GameManager.GameState.WaitingForInput)
-                GameManager.SetGameToActive();
+            movement.Move(activeController.horizontal, activeController.vertical, activeController.rotate);
+            
+            if (!activeController.fire) return;
+            
             int gunToggle = shootFromLeft ? 0 : 1;
             GameObject obj = ObjectPooler.GetBullet();
             obj.transform.SetPositionAndRotation(guns[gunToggle].position, guns[gunToggle].rotation);
             obj.SetActive(true);
             shootFromLeft = !shootFromLeft;
+            return;
         }
+        
+        if (GameManager.GetState() == GameManager.GameState.WaitingForInput)
+            if (activeController.fire)
+                GameManager.SetGameToActive();
+        
+        anim.SetFloat("rotation", 0);
     }
 
     void SetControls()

@@ -16,6 +16,6 @@ public class MenuShip : MonoBehaviour
 
     private void Update()
     {
-        movement.Move(activeController.horizontal, activeController.vertical);
+        movement.Move(activeController.horizontal, activeController.vertical, activeController.rotate);
     }
 }

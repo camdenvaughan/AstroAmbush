@@ -1610,8 +1610,8 @@ MonoBehaviour:
   m_DeadZoneHeight: 0
   m_DeadZoneDepth: 0
   m_UnlimitedSoftZone: 0
-  m_SoftZoneWidth: 0.346
-  m_SoftZoneHeight: 0.349
+  m_SoftZoneWidth: 0.119
+  m_SoftZoneHeight: 0.13
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
@@ -1898,6 +1898,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3215197632438813875, guid: 25efdd79e6e78c248be34659f14a9a1c,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 51771fa80c20207469c46250cb2951ef, type: 2}
     - target: {fileID: 3215197632438813879, guid: 25efdd79e6e78c248be34659f14a9a1c,
         type: 3}
       propertyPath: m_Name

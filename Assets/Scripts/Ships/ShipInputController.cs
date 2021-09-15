@@ -3,13 +3,14 @@
 public class ShipInputController : MonoBehaviour
 {
 
-    [HideInInspector]
-    public float horizontal;
-    [HideInInspector]
-    public float vertical;
+    
+    [HideInInspector] public float horizontal;
+    
+    [HideInInspector] public float vertical;
 
-    [HideInInspector] 
-    public bool fire;
+    [HideInInspector] public bool rotate;
+
+    [HideInInspector] public bool fire;
 	
     void OnDrawGizmos() {
         var directionVector = new Vector3(horizontal, 0, vertical);
