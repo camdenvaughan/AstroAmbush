@@ -9622,7 +9622,6 @@ GameObject:
   - component: {fileID: 3215197632438813884}
   - component: {fileID: 3215197632438813887}
   - component: {fileID: 3215197632438813873}
-  - component: {fileID: 3215197632438813878}
   - component: {fileID: 3215197632438813885}
   m_Layer: 0
   m_Name: Ship
@@ -9712,21 +9711,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocity: 50
   rotationSpeed: 350
---- !u!114 &3215197632438813878
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3215197632438813879}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47e7d79ce56ef1d4f8c0e3c1fd8eeb63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  horizontal: 0
-  vertical: 0
-  fire: 0
 --- !u!114 &3215197632438813885
 MonoBehaviour:
   m_ObjectHideFlags: 0

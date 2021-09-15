@@ -12,7 +12,7 @@ public class Rotator : MonoBehaviour
 
     void Update()
     {        
-        if (GameManager.GameIsActive())
+        if (GameManager.GetState() == GameManager.GameState.Active)
             transform.Rotate(Vector3.forward, rotateSpeed * Time.deltaTime);
     }
 }

@@ -41,7 +41,7 @@ public class Planet : CelestialBody
     {
         if (!shouldRotateOnSpawn)
         {
-            shouldRotateOnSpawn = GameManager.GameIsActive();
+            shouldRotateOnSpawn = GameManager.GetState() == GameManager.GameState.Active;
             return;
         }
         transform.Rotate(rotationAxis, rotationSpeed * Time.deltaTime);

@@ -27,7 +27,7 @@ public class SolarSystem : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.GameIsActive())
+        if (GameManager.GetState() == GameManager.GameState.Active)
             transform.Translate(direction * speed * Time.deltaTime);
     }
 

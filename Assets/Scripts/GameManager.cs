@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,15 +7,22 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager current;
 
-    private Canvas canvas;
-
-    private bool gameIsActive = false;
+    private UINavigator uiNav;
 
     private Text timerText;
 
     private float startTime;
 
     private Transform shipTrans;
+    
+    public enum GameState
+    { WaitingForInput, Active, Paused, Ended }
+
+    private GameState state = GameState.WaitingForInput;
+
+    private bool gameHasStarted = false;
+
+    private float cachedTime = 0f;
     void Start()
     {
         current = this;
@@ -24,67 +32,66 @@ public class GameManager : MonoBehaviour
 
     void SetDependencies()
     {
-        canvas = FindObjectOfType<Canvas>();
-        timerText = canvas.GetComponent<UINavigator>().timerText;
+        uiNav = FindObjectOfType<UINavigator>();
+        timerText = uiNav.timerText;
         
         shipTrans = GameObject.FindGameObjectWithTag("Ship").transform;
     }
 
     private void Update()
     {
-        if (gameIsActive)
+        if (state == GameState.Active)
         {
             float t = Time.time - startTime;
+            t += cachedTime;
             string minutes = ((int) t / 60).ToString();
             string seconds = (t % 60).ToString("f2");
 
             timerText.text = minutes + " : " + seconds;         
         }
-
     }
 
-    public static void StartGame()
+    public static GameState GetState()
     {
-        current.StartGameImpl();
+        return current.state;
     }
 
-    private  void StartGameImpl()
+    public static void SetGameToActive()
     {
-        gameIsActive = true;
-        startTime = Time.time;
+        if (!current.gameHasStarted)
+        {
+            current.gameHasStarted = true;
+        }
+
+        current.state = GameState.Active;
+        current.startTime = Time.time;
     }
 
-    public static bool GameIsActive()
+    public static void PauseGame()
     {
-        return current.GameIsActiveImpl();
+        if (current.state == GameState.Ended)
+            return;
+        else if (current.state == GameState.Paused)
+            current.state = GameState.WaitingForInput;
+        else
+        {
+            current.state = GameState.Paused;
+            current.uiNav.ShowPauseScreen();
+            float t = Time.time - current.startTime;
+            current.cachedTime += t;
+        }
     }
-
-    private  bool GameIsActiveImpl()
-    {
-        return gameIsActive;
-    }
-
     public static Vector3 GetShipPos()
     {
-        return current.GetShipPosImpl();
-    }
-
-    private  Vector3 GetShipPosImpl()
-    {
-        return shipTrans.position;
+        return current.shipTrans.position;
     }
 
     public static void EndGame()
     {
-        current.EndGameImpl();
-    }
-
-    private void EndGameImpl()
-    {
-        gameIsActive = false;
-        float finalScore = Time.time - startTime;
+        current.state = GameState.Ended;
+        float finalScore = Time.time - current.startTime;
         string minutes = ((int) finalScore / 60).ToString();
         string seconds = (finalScore % 60).ToString("f2");
-        timerText.text = minutes + ":" + seconds;
+        current.timerText.text = minutes + ":" + seconds;
     }
 }

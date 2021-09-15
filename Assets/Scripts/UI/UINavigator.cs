@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
+using UnityEngine.EventSystems;
+using UnityEngine.PlayerLoop;
 using UnityEngine.Serialization;
 
 public class UINavigator : MonoBehaviour
@@ -23,6 +25,8 @@ public class UINavigator : MonoBehaviour
     [SerializeField] private Toggle fullScreenToggle;
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider effectsVolumeSlider;
+    [SerializeField] private Button mouseControlsButton;
+    [SerializeField] private Button keyControlsButton;
 
     [SerializeField] private AudioMixer Mixer;
     
@@ -49,6 +53,12 @@ public class UINavigator : MonoBehaviour
         Mixer.SetFloat("effectsVolume", Mathf.Log10(PlayerPrefs.GetFloat("effectsVolume")) * 20);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            ChangePauseState();
+    }
+
     private void SetGameTimeUI()
     {
         titleMenuUI.SetActive(false);
@@ -67,10 +77,8 @@ public class UINavigator : MonoBehaviour
     private void SetDependencies()
     {
         uiShipHandler = GameObject.FindObjectOfType<UIShipHandler>();
-        fullScreenToggle.isOn = PlayerPrefs.GetInt("isFullScreen") == 0;
-        Screen.fullScreen = fullScreenToggle.isOn;
-        musicVolumeSlider.value = PlayerPrefs.GetFloat("musicVolume");
-        effectsVolumeSlider.value = PlayerPrefs.GetFloat("effectsVolume");
+        musicVolumeSlider.value = PlayerPrefs.GetFloat("musicVolume", .75f);
+        effectsVolumeSlider.value = PlayerPrefs.GetFloat("effectsVolume", .75f);
     }
     
     
@@ -122,11 +130,11 @@ public class UINavigator : MonoBehaviour
     {
         if (state == 0)
         {
-            
+            PlayerPrefs.SetInt("controlLayout", 0);
         }
         else if (state == 1)
         {
-            
+            PlayerPrefs.SetInt("controlLayout", 1);
         }
         else
         {
@@ -136,6 +144,16 @@ public class UINavigator : MonoBehaviour
 
     public void ChangePauseState()
     {
+        if (pauseUI.gameObject.activeInHierarchy)
+        {
+            pauseUI.SetActive(false);
+            gameTimeUI.SetActive(true);
+            ClosePauseScreen();
+        }
+        else
+        {
+            gameTimeUI.SetActive(false);
+        }
         OnPauseStateChanged();
     }
 
@@ -166,6 +184,16 @@ public class UINavigator : MonoBehaviour
     
     // Settings
 
+    public void ShowPauseScreen()
+    {
+        uiShipHandler.OpenPauseScreen();
+        MoveToPauseScreen();
+    }
+
+    public void MoveToPauseScreen()
+    {
+        uiShipHandler.MoveCameraToPauseLoc(pauseUI);
+    }
     public void OpenSettings()
     {
         uiShipHandler.OpenSettings();
@@ -183,12 +211,23 @@ public class UINavigator : MonoBehaviour
 
     public void MoveToVolumeScreen()
     {
+
         uiShipHandler.MoveCameraToVolumeLoc(volumeScreen);
 
     }
 
+    public void ClosePauseScreen()
+    {
+        uiShipHandler.ClosePauseScreen();
+    }
+    
+
     public void CloseSettings()
     {
-        uiShipHandler.CloseSettings(titleMenuUI);
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+            uiShipHandler.CloseSettings(titleMenuUI);
+        else
+            MoveToPauseScreen();
+        
     }
 }

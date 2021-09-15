@@ -22,7 +22,7 @@ public class SolarSpawner : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.GameIsActive())
+        if (GameManager.GetState() == GameManager.GameState.Active)
             CheckSolarPositions();
     }
 

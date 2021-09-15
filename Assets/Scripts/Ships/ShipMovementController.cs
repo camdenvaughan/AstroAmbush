@@ -5,19 +5,17 @@ public class ShipMovementController : MonoBehaviour {
 	public float velocity;
 	public float rotationSpeed;
 	
-	private ShipInputController inputController;
 	private Animator anim;
 
 	// Use this for initialization
 	void Start () 
 	{
-		inputController = GetComponent<ShipInputController>();
 		anim = GetComponent<Animator>();
 	}
 
-	public void Move()
+	public void Move(float horizontal, float vertical)
     {
-		var inputDirection = new Vector3(inputController.horizontal, inputController.vertical, 0);
+		var inputDirection = new Vector3(horizontal, vertical, 0);
 		float thrust = Vector3.Dot(inputDirection.normalized, this.transform.up);
 		var rotation = Vector3.Dot(inputDirection.normalized, this.transform.right);
 		var rotationAmount = rotationSpeed * Time.deltaTime * rotation;
