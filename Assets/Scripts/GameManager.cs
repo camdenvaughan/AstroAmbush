@@ -46,11 +46,14 @@ public class GameManager : MonoBehaviour
         {
             float t = Time.time - startTime;
             t += cachedTime;
-            string minutes = ((int) t / 60).ToString();
-            string seconds = (t % 60).ToString("f2");
-
-            timerText.text = minutes + " : " + seconds;         
+            string points = ((int) t).ToString();
+            timerText.text = points;
+            
+            if (Input.GetKeyDown(KeyCode.Escape))
+                uiNav.ChangePauseState();
         }
+        
+
     }
 
     public static GameState GetState()
@@ -73,7 +76,7 @@ public class GameManager : MonoBehaviour
     {
         if (current.state == GameState.Ended)
             return;
-        else if (current.state == GameState.Paused)
+        if (current.state == GameState.Paused)
             current.state = GameState.WaitingForInput;
         else
         {
@@ -91,11 +94,10 @@ public class GameManager : MonoBehaviour
     public static void EndGame()
     {
         current.state = GameState.Ended;
-        float finalScore = Time.time - current.startTime;
-        finalScore += current.cachedTime;
-        string minutes = ((int) finalScore / 60).ToString();
-        string seconds = (finalScore % 60).ToString("f2");
-        current.finalText.text = minutes + ":" + seconds;
+        float t = Time.time - current.startTime;
+        t += current.cachedTime;
+        string points = ((int) t).ToString();
+        current.finalText.text = points;
         current.uiNav.EndGame();
     }
 }

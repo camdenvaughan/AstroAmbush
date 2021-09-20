@@ -8,8 +8,6 @@ public class ShipInputController : MonoBehaviour
     
     [HideInInspector] public float vertical;
 
-    [HideInInspector] public bool rotate;
-
     [HideInInspector] public bool fire;
 	
     void OnDrawGizmos() {

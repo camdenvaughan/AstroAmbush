@@ -1,21 +1,14 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class MenuShip : MonoBehaviour
+public class MenuShip : ShipBase
 {
-    private ShipMovementController movement;
-    private ShipInputController activeController;
-
     private void Start()
     {
         movement = GetComponent<ShipMovementController>();
         activeController = gameObject.AddComponent<MouseInputController>();
     }
 
-    private void Update()
+    protected override void HandleActions()
     {
-        movement.Move(activeController.horizontal, activeController.vertical, activeController.rotate);
+        Move();
     }
 }

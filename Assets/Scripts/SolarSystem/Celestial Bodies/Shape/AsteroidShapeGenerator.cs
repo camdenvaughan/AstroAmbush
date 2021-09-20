@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class PlanetShapeGenerator : IShapeGenerator
+public class AsteroidShapeGenerator : IShapeGenerator
 {
     private PlanetSettings settings;
     private NoiseFilter[] noiseFilters;

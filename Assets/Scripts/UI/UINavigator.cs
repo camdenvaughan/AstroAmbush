@@ -28,8 +28,7 @@ public class UINavigator : MonoBehaviour
     [SerializeField] private Text volumePercentage;
     [SerializeField] private Text effectPercentage;
 
-    [SerializeField] private Button mouseControlsButton;
-    [SerializeField] private Button keyControlsButton;
+    public AudioManager audioManager;
 
 
     [SerializeField] private AudioMixer Mixer;
@@ -58,12 +57,6 @@ public class UINavigator : MonoBehaviour
         Mixer.SetFloat("musicVolume", Mathf.Log10(PlayerPrefs.GetFloat("musicVolume")) * 20);
         Mixer.SetFloat("effectsVolume", Mathf.Log10(PlayerPrefs.GetFloat("effectsVolume")) * 20);
         isFullScreen = PlayerPrefs.GetInt("isFullScreen", 0) == 0;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            ChangePauseState();
     }
 
     private void SetGameTimeUI()
@@ -111,6 +104,11 @@ public class UINavigator : MonoBehaviour
         showUI.SetActive(true);
     }
 
+    public void PlayButtonClick()
+    {
+        audioManager.Play("button");
+    }
+
     public void LoadScene(int index)
     {
         StartCoroutine(FadeOut(index));
@@ -128,6 +126,8 @@ public class UINavigator : MonoBehaviour
         PlayerPrefs.SetFloat("musicVolume", volume);
         int percentage = Mathf.RoundToInt(musicVolumeSlider.value * 100);
         volumePercentage.text = percentage.ToString() + "%";
+        audioManager.Play("volume knob");
+
     }
 
     public void SetEffectVolume(float volume)
@@ -136,7 +136,7 @@ public class UINavigator : MonoBehaviour
         PlayerPrefs.SetFloat("effectsVolume", volume);
         int percentage = Mathf.RoundToInt(effectsVolumeSlider.value * 100);
         effectPercentage.text = percentage.ToString() + "%";
-
+        audioManager.Play("volume knob");
     }
 
     public void SetControls(int state)

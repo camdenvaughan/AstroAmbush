@@ -9,6 +9,7 @@ TagManager:
   - Ship
   - Planet
   - Sun
+  - Enemy
   layers:
   - Default
   - TransparentFX

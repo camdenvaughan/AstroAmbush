@@ -28,7 +28,7 @@ public class UIShipHandler : MonoBehaviour
 
     [SerializeField] private float mainBoosterMin;
     [SerializeField] private float secondaryBoosterMin;
-
+    
     private ParticleSystem.MainModule rightMain;
     private ParticleSystem.MainModule rightSecondary;
     private ParticleSystem.MainModule leftMain;
@@ -64,9 +64,10 @@ public class UIShipHandler : MonoBehaviour
     public void OpenPauseScreen()
     {
         shipPos = shipTrans.position;
-        shipRot = shipTrans.rotation;
+        shipRot = shipTrans.rotation;        
         cameraBrain = Camera.main.GetComponent<CinemachineBrain>();
         cameraBrain.enabled = false;
+
         cameraPos = cameraTrans.position;
         TurnOnBoosters(false);
     }

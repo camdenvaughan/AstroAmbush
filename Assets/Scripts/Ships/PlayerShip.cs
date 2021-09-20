@@ -1,52 +1,57 @@
 ﻿using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class PlayerShip : MonoBehaviour
+public class PlayerShip : ShipBase
 {
-    [SerializeField] private float radius;
-    private ShipInputController activeController;
     private KeyboardInputController keyboardController;
     private MouseInputController mouseController;
-    private ShipMovementController movement;
-    private Animator anim;
-    [SerializeField] private Transform[] guns = new Transform[2];
-    private bool shootFromLeft;
+    
+    [SerializeField] private GameObject[] spawnPoints;
+    [SerializeField] private GameObject shipMesh;
+    [SerializeField] private float alienSpawnTimer;
     
     
-    private void Start()
+    private float startTime;
+
+    protected override void SetDependencies()
     {
+        base.SetDependencies();
         mouseController = gameObject.AddComponent<MouseInputController>();
         keyboardController = gameObject.AddComponent<KeyboardInputController>();
-        
         SetControls();
-
-        movement = GetComponent<ShipMovementController>();
-        anim = GetComponent<Animator>();
-
-        GameObject.FindObjectOfType<UINavigator>().PauseStateChanged += OnPauseStateChanged;
+        uiNav.PauseStateChanged += OnPauseStateChanged;
+        startTime = Time.time;
     }
 
-    private void Update()
+    protected override void HandleActions()
     {
         if (GameManager.GetState() == GameManager.GameState.Active)
         {
-            movement.Move(activeController.horizontal, activeController.vertical, activeController.rotate);
-            
-            if (!activeController.fire) return;
-            
-            int gunToggle = shootFromLeft ? 0 : 1;
-            GameObject obj = ObjectPooler.GetBullet();
-            obj.transform.SetPositionAndRotation(guns[gunToggle].position, guns[gunToggle].rotation);
-            obj.SetActive(true);
-            shootFromLeft = !shootFromLeft;
+            Move();
+            SpawnAliens();
+            Shoot();
             return;
         }
-        
+
+        anim.SetFloat("rotation", 0);
         if (GameManager.GetState() == GameManager.GameState.WaitingForInput)
             if (activeController.fire)
+            {
                 GameManager.SetGameToActive();
-        
-        anim.SetFloat("rotation", 0);
+            }
+    }
+
+    void SpawnAliens()
+    {
+        if (Time.time - startTime > alienSpawnTimer)
+        {
+            GameObject alienShip = ObjectPooler.GetAlienShip();
+            int randomSpawnPoint = Random.Range(0, spawnPoints.Length);
+            alienShip.transform.position = spawnPoints[randomSpawnPoint].transform.position;
+            alienShip.SetActive(true);
+            startTime = Time.time;
+        }
     }
 
     void SetControls()
@@ -62,6 +67,22 @@ public class PlayerShip : MonoBehaviour
         SetControls();
         GameManager.PauseGame();
     }
-    
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy") || other.CompareTag("Bullet"))
+        {
+            GameObject obj = ObjectPooler.GetExplosionObj();
+            obj.transform.position = transform.position;
+            obj.SetActive(true);
+            GameManager.EndGame();
+            // play explosion
+            shipMesh.SetActive(false);
+            ParticleSystem[] particleSystems = gameObject.GetComponentsInChildren<ParticleSystem>();
+            foreach (ParticleSystem system in particleSystems)
+            {
+                system.Stop();
+            }
+        }
+    }
 }

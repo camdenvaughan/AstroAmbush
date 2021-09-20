@@ -6,8 +6,6 @@ public class MouseInputController : ShipInputController {
 
     private Vector3 mousePos = Vector3.zero;
     // Use this for initialization
-
-    private float minDistance = 2;
     private void Start()
     {
         cam = Camera.main;
@@ -34,6 +32,5 @@ public class MouseInputController : ShipInputController {
         fire = Input.GetMouseButtonDown(0);
 
         float distance = Vector3.Distance(mousePos, transform.position);
-        rotate = distance > minDistance;
     }
 }

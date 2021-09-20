@@ -322,6 +322,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3087034027677151947}
+        m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
+        m_MethodName: PlayButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &93035244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,6 +477,18 @@ MonoBehaviour:
       - m_Target: {fileID: 3087034027677151947}
         m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
         m_MethodName: ChangePauseState
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3087034027677151947}
+        m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
+        m_MethodName: PlayButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -705,7 +729,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &635896107
 RectTransform:
   m_ObjectHideFlags: 0
@@ -797,6 +821,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3087034027677151947}
+        m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
+        m_MethodName: PlayButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -930,6 +966,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3087034027677151947}
+        m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
+        m_MethodName: PlayButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1077,6 +1125,18 @@ MonoBehaviour:
       - m_Target: {fileID: 3087034027677151947}
         m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
         m_MethodName: ChangePauseState
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3087034027677151947}
+        m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
+        m_MethodName: PlayButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1234,6 +1294,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 9197575981001454695}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3087034027677151947}
+        m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
+        m_MethodName: PlayButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1539,6 +1611,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3087034027677151947}
+        m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
+        m_MethodName: PlayButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &882110075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1686,6 +1770,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 1150695921931543814}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3087034027677151947}
+        m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
+        m_MethodName: PlayButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1867,6 +1963,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
         m_MethodName: SetControls
         m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3087034027677151947}
+        m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
+        m_MethodName: PlayButtonClick
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2111,6 +2219,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3087034027677151947}
+        m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
+        m_MethodName: PlayButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &980168987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2259,6 +2379,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 9197575981001454695}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3087034027677151947}
+        m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
+        m_MethodName: PlayButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2504,6 +2636,27 @@ MonoBehaviour:
     pitch: 1
     loop: 1
     group: {fileID: 1154281015163628117, guid: 80cba2e8ed6114c40b11f4bf05951c5f, type: 2}
+    source: {fileID: 0}
+  - name: button
+    clip: {fileID: 8300000, guid: 5dc3051195702dc49b583ba25cb50437, type: 3}
+    volume: 0.452
+    pitch: 1
+    loop: 0
+    group: {fileID: 3702419286480456844, guid: 80cba2e8ed6114c40b11f4bf05951c5f, type: 2}
+    source: {fileID: 0}
+  - name: blaster
+    clip: {fileID: 8300000, guid: 281d4c9fe80222f449718dc2c8384bbf, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    group: {fileID: 3702419286480456844, guid: 80cba2e8ed6114c40b11f4bf05951c5f, type: 2}
+    source: {fileID: 0}
+  - name: volume knob
+    clip: {fileID: 8300000, guid: f6016aaf9fe65cf4aa624581d54dbd2f, type: 3}
+    volume: 0.795
+    pitch: 1
+    loop: 0
+    group: {fileID: 3702419286480456844, guid: 80cba2e8ed6114c40b11f4bf05951c5f, type: 2}
     source: {fileID: 0}
 --- !u!4 &1077514824
 Transform:
@@ -2905,6 +3058,18 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 3087034027677151947}
         m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
+        m_MethodName: PlayButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3087034027677151947}
+        m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
         m_MethodName: CloseLeaderBoard
         m_Mode: 1
         m_Arguments:
@@ -3181,6 +3346,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3087034027677151947}
+        m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
+        m_MethodName: PlayButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3594,6 +3771,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 1218075943}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3087034027677151947}
+        m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
+        m_MethodName: PlayButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4081,6 +4270,18 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 3087034027677151947}
         m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
+        m_MethodName: PlayButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3087034027677151947}
+        m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
         m_MethodName: MoveToControlsScreen
         m_Mode: 1
         m_Arguments:
@@ -4302,6 +4503,18 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 3087034027677151947}
         m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
+        m_MethodName: PlayButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3087034027677151947}
+        m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
         m_MethodName: OpenSettings
         m_Mode: 1
         m_Arguments:
@@ -4515,6 +4728,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 15005711}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3087034027677151947}
+        m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
+        m_MethodName: PlayButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4768,8 +4993,7 @@ MonoBehaviour:
   effectsVolumeSlider: {fileID: 937869837}
   volumePercentage: {fileID: 1362879252}
   effectPercentage: {fileID: 787189617}
-  mouseControlsButton: {fileID: 933005071}
-  keyControlsButton: {fileID: 1281663525}
+  audioManager: {fileID: 1077514823}
   Mixer: {fileID: 24100000, guid: 80cba2e8ed6114c40b11f4bf05951c5f, type: 2}
 --- !u!114 &3087034027677151948
 MonoBehaviour:
@@ -4969,6 +5193,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3087034027677151947}
+        m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
+        m_MethodName: PlayButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &3087034028320698202
 Animator:
   serializedVersion: 3
@@ -5125,6 +5361,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 3087034028942249258}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3087034027677151947}
+        m_TargetAssemblyTypeName: UINavigator, Assembly-CSharp
+        m_MethodName: PlayButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

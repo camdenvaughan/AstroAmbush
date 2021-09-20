@@ -4,6 +4,8 @@
 [CreateAssetMenu()]
 public class PlanetSettings : CelestialSettings
 {
+    public enum FilterType { Simple, Rigid };
+
     public GameObject explosionObj;
     
     [Header("Color Settings")]
@@ -17,6 +19,8 @@ public class PlanetSettings : CelestialSettings
     [System.Serializable]
     public class NoiseLayer
     {
+        public FilterType filter;
+        [Header("Simple Noise Settings")]
         public bool enabled = true;
         public bool useFirstLayerAsMask;
         [Range(-5,5)]
@@ -28,5 +32,7 @@ public class PlanetSettings : CelestialSettings
         public float persistence = .5f;
         public Vector3 center;
         public float minValue;
+        [Header("Rigid Noise Settings")]
+        public float weightMultiplier;
     }
 }
