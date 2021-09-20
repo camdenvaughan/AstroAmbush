@@ -70,13 +70,14 @@ public class PlayerShip : ShipBase
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy") || other.CompareTag("Bullet"))
+        if (other.CompareTag("Enemy"))
         {
             GameObject obj = ObjectPooler.GetExplosionObj();
             obj.transform.position = transform.position;
             obj.SetActive(true);
             GameManager.EndGame();
             // play explosion
+            audioManager.Play("explosion");
             shipMesh.SetActive(false);
             ParticleSystem[] particleSystems = gameObject.GetComponentsInChildren<ParticleSystem>();
             foreach (ParticleSystem system in particleSystems)

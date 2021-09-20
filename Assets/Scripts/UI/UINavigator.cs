@@ -20,8 +20,8 @@ public class UINavigator : MonoBehaviour
     [SerializeField] float fadeTime;
 
     public Text timerText;
-
     public Text finalTime;
+    public Text highScore;
     
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider effectsVolumeSlider;

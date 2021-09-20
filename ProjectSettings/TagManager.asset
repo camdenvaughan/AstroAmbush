@@ -10,6 +10,7 @@ TagManager:
   - Planet
   - Sun
   - Enemy
+  - PlayerBullet
   layers:
   - Default
   - TransparentFX

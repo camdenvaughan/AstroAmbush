@@ -96,8 +96,16 @@ public class GameManager : MonoBehaviour
         current.state = GameState.Ended;
         float t = Time.time - current.startTime;
         t += current.cachedTime;
-        string points = ((int) t).ToString();
-        current.finalText.text = points;
+        int score = ((int) t);
+        current.finalText.text = score.ToString();
         current.uiNav.EndGame();
+        int highScore = PlayerPrefs.GetInt("highscore", 0);
+        if (score > highScore)
+        {
+            highScore = score;
+            PlayerPrefs.SetInt("highscore", score);         
+        }
+
+        current.uiNav.highScore.text = highScore.ToString();
     }
 }

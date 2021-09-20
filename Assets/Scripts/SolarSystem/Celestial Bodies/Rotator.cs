@@ -3,16 +3,17 @@
 
 public class Rotator : MonoBehaviour
 {
-    private float rotateSpeed;
+    [SerializeField] private float rotateSpeed;
+    [SerializeField] private Vector3 axis;
 
     private void Start()
     {
-        rotateSpeed = Random.Range(10f, 20f);
+        if (rotateSpeed == 0) 
+            rotateSpeed = Random.Range(10f, 20f);
     }
 
     void Update()
-    {        
-        if (GameManager.GetState() == GameManager.GameState.Active)
-            transform.Rotate(Vector3.forward, rotateSpeed * Time.deltaTime);
+    {
+        transform.Rotate(axis, rotateSpeed * Time.deltaTime);
     }
 }

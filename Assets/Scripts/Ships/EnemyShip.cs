@@ -30,6 +30,7 @@ public class EnemyShip : ShipBase
         if (other.CompareTag("Bullet"))
         {
             Explode();
+            audioManager.Play("explosion");
             gameObject.SetActive(false);
         }
     }

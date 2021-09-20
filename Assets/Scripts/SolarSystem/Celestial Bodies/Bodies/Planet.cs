@@ -16,7 +16,7 @@ public class Planet : CelestialBody
 
     private void OnValidate()
     {
-        //GeneratePlanet();
+        GeneratePlanet();
     }
 
     public override void SetupPlanet(int resolution, CelestialSettings settings)
@@ -34,7 +34,7 @@ public class Planet : CelestialBody
 
     private void Update()
     {
-        Rotate();
+        //Rotate();
     }
 
     private void Rotate()
