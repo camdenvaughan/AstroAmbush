@@ -19,9 +19,12 @@ public class UINavigator : MonoBehaviour
     [SerializeField] CanvasGroup fader;
     [SerializeField] float fadeTime;
 
-    public Text timerText;
-    public Text finalTime;
-    public Text highScore;
+    [SerializeField] private Text scoreText;
+    [SerializeField] private Text addedText;
+    [SerializeField] private Text finalScore;
+    [SerializeField] private Text highScore;
+    [SerializeField] private Text clickText;
+    private Animator addedTextAnim;
     
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider effectsVolumeSlider;
@@ -30,6 +33,9 @@ public class UINavigator : MonoBehaviour
 
     public AudioManager audioManager;
 
+    public string[] leaderBoardItems = new string[10];
+    [SerializeField] private Text[] leaderboardSlots = new Text[10];
+    [SerializeField] private Text connectionErrorText;
 
     [SerializeField] private AudioMixer Mixer;
     
@@ -87,6 +93,7 @@ public class UINavigator : MonoBehaviour
         uiShipHandler = GameObject.FindObjectOfType<UIShipHandler>();
         musicVolumeSlider.value = PlayerPrefs.GetFloat("musicVolume", .75f);
         effectsVolumeSlider.value = PlayerPrefs.GetFloat("effectsVolume", .75f);
+        addedTextAnim = addedText.gameObject.GetComponent<Animator>();
     }
     
     
@@ -128,6 +135,40 @@ public class UINavigator : MonoBehaviour
         volumePercentage.text = percentage.ToString() + "%";
         audioManager.Play("volume knob");
 
+    }
+
+    public void SetScore(float score)
+    {
+        scoreText.text = ((int) score).ToString();
+    }
+
+    public void AddToScore(float score)
+    {
+        addedText.text = "+" + ((int) score).ToString();
+        addedTextAnim.SetTrigger("play");
+    }
+
+    public void SetFinalScore(float score)
+    {
+        finalScore.text = ((int) score).ToString();
+    }
+    public void SetHighScore(float score)
+    {
+        int iScore = (int) score;
+        int hs = PlayerPrefs.GetInt("highscore", 0);
+        if (score > hs)
+        {
+            hs = iScore;
+            PlayerPrefs.SetInt("highscore", iScore);
+            GetComponent<PlayFabManager>().SendLeaderBoard(iScore);
+        }
+        highScore.text = hs.ToString();
+    }
+
+    public void SetTutorialText(string text, bool isOn)
+    {
+        clickText.text = text;
+        clickText.gameObject.SetActive(isOn);
     }
 
     public void SetEffectVolume(float volume)
@@ -252,7 +293,29 @@ public class UINavigator : MonoBehaviour
 
     public void OpenLeaderBoard()
     {
+        GetLeaderBoard();
         uiShipHandler.OpenLeaderBoard(leaderboardScreen);
+
+    }
+
+    private void GetLeaderBoard()
+    {
+        PlayFabManager playFabManager = GetComponent<PlayFabManager>();
+
+        foreach (Text slot in leaderboardSlots)
+        {
+            slot.gameObject.SetActive(playFabManager.connected);
+        }
+        connectionErrorText.gameObject.SetActive(!playFabManager.connected);
+        
+        playFabManager.GetLeaderBoard();
+        for (int i = 0; i < leaderBoardItems.Length; i++)
+        {
+            if (leaderBoardItems[i] != null)
+            {
+                leaderboardSlots[i].text = leaderBoardItems[i];
+            }
+        }
     }
 
     public void CloseLeaderBoard()

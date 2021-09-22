@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ed150ef9fb07be45a77bab8730a49b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speedMinMax: {x: 5, y: 10}
 --- !u!1 &1809363888467413677
 GameObject:
   m_ObjectHideFlags: 0
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ed150ef9fb07be45a77bab8730a49b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speedMinMax: {x: 5, y: 10}
 --- !u!114 &2958165807023298670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ed150ef9fb07be45a77bab8730a49b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speedMinMax: {x: 5, y: 10}
 --- !u!114 &7478151454445797793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ed150ef9fb07be45a77bab8730a49b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speedMinMax: {x: 5, y: 10}
 --- !u!114 &4841996615839234868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ed150ef9fb07be45a77bab8730a49b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speedMinMax: {x: 5, y: 10}
 --- !u!114 &3633731532744332780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ed150ef9fb07be45a77bab8730a49b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speedMinMax: {x: 5, y: 10}
 --- !u!114 &5216769147535454193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ed150ef9fb07be45a77bab8730a49b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speedMinMax: {x: 5, y: 10}
 --- !u!114 &1656584948797770185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ed150ef9fb07be45a77bab8730a49b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speedMinMax: {x: 5, y: 10}
 --- !u!114 &5150297541737032676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ed150ef9fb07be45a77bab8730a49b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speedMinMax: {x: 5, y: 10}
 --- !u!1001 &129731989294330498
 PrefabInstance:
   m_ObjectHideFlags: 0

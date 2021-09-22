@@ -8,11 +8,9 @@ public class GameManager : MonoBehaviour
     public static GameManager current;
 
     private UINavigator uiNav;
-
-    private Text timerText;
-    private Text finalText;
-
-    private float startTime;
+    
+    
+    private float timer;
 
     private Transform shipTrans;
     
@@ -22,20 +20,18 @@ public class GameManager : MonoBehaviour
     private GameState state = GameState.WaitingForInput;
 
     private bool gameHasStarted = false;
-
-    private float cachedTime = 0f;
+    
     void Start()
     {
         current = this;
-        
         SetDependencies();
     }
 
     void SetDependencies()
     {
         uiNav = FindObjectOfType<UINavigator>();
-        timerText = uiNav.timerText;
-        finalText = uiNav.finalTime;
+
+        uiNav.SetScore(0f);
         
         shipTrans = GameObject.FindGameObjectWithTag("Ship").transform;
     }
@@ -44,18 +40,28 @@ public class GameManager : MonoBehaviour
     {
         if (state == GameState.Active)
         {
-            float t = Time.time - startTime;
-            t += cachedTime;
-            string points = ((int) t).ToString();
-            timerText.text = points;
+            timer += Time.deltaTime;
+            uiNav.SetScore(timer);
             
             if (Input.GetKeyDown(KeyCode.Escape))
                 uiNav.ChangePauseState();
         }
-        
 
     }
 
+    private void SetTutorialText(bool isOn)
+    {
+        string text = PlayerPrefs.GetInt("controlLayout", 0) == 0 ? "Click Mouse Button " : "Press Space Bar ";
+        if (!gameHasStarted)
+        {
+                text += "to Start Game";
+        }
+        else
+        {
+                text += "to Resume Game";
+        }
+        uiNav.SetTutorialText(text, isOn);
+    }
     public static GameState GetState()
     {
         return current.state;
@@ -69,7 +75,8 @@ public class GameManager : MonoBehaviour
         }
 
         current.state = GameState.Active;
-        current.startTime = Time.time;
+
+        current.SetTutorialText(false);
     }
 
     public static void PauseGame()
@@ -77,13 +84,14 @@ public class GameManager : MonoBehaviour
         if (current.state == GameState.Ended)
             return;
         if (current.state == GameState.Paused)
+        {
             current.state = GameState.WaitingForInput;
+            current.SetTutorialText(true);
+        }
         else
         {
             current.state = GameState.Paused;
             current.uiNav.ShowPauseScreen();
-            float t = Time.time - current.startTime;
-            current.cachedTime += t;
         }
     }
     public static Vector3 GetShipPos()
@@ -91,21 +99,17 @@ public class GameManager : MonoBehaviour
         return current.shipTrans.position;
     }
 
+    public static void AddToScore(float scoreToAdd)
+    {
+        current.uiNav.AddToScore(scoreToAdd);
+    }
+
     public static void EndGame()
     {
         current.state = GameState.Ended;
-        float t = Time.time - current.startTime;
-        t += current.cachedTime;
-        int score = ((int) t);
-        current.finalText.text = score.ToString();
+        
+        current.uiNav.SetFinalScore(current.timer);
+        current.uiNav.SetHighScore(current.timer);
         current.uiNav.EndGame();
-        int highScore = PlayerPrefs.GetInt("highscore", 0);
-        if (score > highScore)
-        {
-            highScore = score;
-            PlayerPrefs.SetInt("highscore", score);         
-        }
-
-        current.uiNav.highScore.text = highScore.ToString();
     }
 }

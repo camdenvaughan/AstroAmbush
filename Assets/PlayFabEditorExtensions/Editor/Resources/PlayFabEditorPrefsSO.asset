@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d0199c11aa6f514784c5c69cd8378d8, type: 3}
+  m_Name: PlayFabEditorPrefsSO
+  m_EditorClassIdentifier: 
+  DevAccountEmail: camdenvaughanwake@gmail.com
+  DevAccountToken: 1nxkeehjodzh4oxz8rpok6yot15c54ee3ik9j6zq5xxtnhz3rgx14ncnydkrozhfce5aao94zudjhy74q9e69374cfq7tj8kt84e8dsp5ktmpczxiw53ygaa5ipnxi7tjeztnkn1epmnb4wxqt4zs3ne9defh8kjxj5ith5w5wwkrnn141x454qrwkf8f1w8d3tws785
+  SelectedStudio: Big Boat Dev
+  SdkPath: Assets/PlayFabSDK
+  EdExPath: 
+  LocalCloudScriptPath: 
+  PanelIsShown: 0
+  curMainMenuIdx: 1
+  curSubMenuIdx: 0

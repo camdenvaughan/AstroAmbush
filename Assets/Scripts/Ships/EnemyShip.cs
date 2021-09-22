@@ -3,18 +3,19 @@ using UnityEngine;
 public class EnemyShip : ShipBase
 {
     [SerializeField] private float shootCooldown;
-    private float startTime;
+    private float currentTime;
 
     protected override void SetDependencies()
     {
         base.SetDependencies();
         activeController = GetComponent<EnemyInputController>();
-        startTime = Time.time;
+        currentTime = shootCooldown;
     }
 
     protected override void Shoot()
     {
-        if (!activeController.fire || Time.time - startTime < shootCooldown) return;
+        currentTime -= Time.deltaTime;
+        if (!activeController.fire || currentTime > 0) return;
         int gunToggle = shootFromLeft ? 0 : 1;
         GameObject obj = ObjectPooler.GetEnemyBullet();
         obj.transform.SetPositionAndRotation(guns[gunToggle].position, guns[gunToggle].rotation);
@@ -22,24 +23,24 @@ public class EnemyShip : ShipBase
         gunFlare[gunToggle].Play();
         audioManager.Play("blaster");
         shootFromLeft = !shootFromLeft;
-        startTime = Time.time;
+        currentTime = shootCooldown;
     }
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Bullet"))
+        if (other.CompareTag("PlayerBullet"))
         {
             Explode();
-            audioManager.Play("explosion");
-            gameObject.SetActive(false);
+            GameManager.AddToScore(5f);
         }
     }
 
     private void Explode()
     {
+        audioManager.Play("explosion");
         GameObject obj = ObjectPooler.GetExplosionObj();
         obj.transform.SetPositionAndRotation(transform.position, transform.rotation);
         obj.SetActive(true);
-        
+        gameObject.SetActive(false);
     }
 }

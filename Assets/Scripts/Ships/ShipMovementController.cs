@@ -6,7 +6,6 @@ public class ShipMovementController : MonoBehaviour {
 	public float rotationSpeed;
 	
 	private Animator anim;
-	public float debugFloat;
 
 	// Use this for initialization
 	void Start () 
@@ -22,9 +21,8 @@ public class ShipMovementController : MonoBehaviour {
 		var rotationAmount = rotationSpeed * Time.deltaTime * rotation;
 
 		transform.position += transform.up * velocity * Time.deltaTime;
-
-		debugFloat = inputDirection.magnitude;
-	    transform.rotation = Quaternion.Euler(0, 0, this.transform.rotation.eulerAngles.z - rotationAmount);
+		
+		transform.rotation = Quaternion.Euler(0, 0, this.transform.rotation.eulerAngles.z - rotationAmount);
 	    anim.SetFloat("rotation", rotation);
 
     }

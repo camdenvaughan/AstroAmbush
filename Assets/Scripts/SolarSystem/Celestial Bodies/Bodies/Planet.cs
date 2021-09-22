@@ -10,9 +10,7 @@ public class Planet : CelestialBody
     // Color Generator
     private Texture2D texture;
     private const int textureRes = 50;
-
-    [HideInInspector]
-    public GameObject orbitPoint;
+    
 
     private void OnValidate()
     {
@@ -28,15 +26,9 @@ public class Planet : CelestialBody
 
     public void SetOrbitPoint(GameObject orbitPoint)
     {
-        this.orbitPoint = orbitPoint;
         transform.parent = orbitPoint.transform;
     }
-
-    private void Update()
-    {
-        //Rotate();
-    }
-
+    
     private void Rotate()
     {
         if (!shouldRotateOnSpawn)
@@ -116,42 +108,11 @@ public class Planet : CelestialBody
     
     private void OnTriggerEnter(Collider other)
     {
-        switch (other.tag)
-        {
-            case "Bullet":
-                health -= 30f;
-                if (health < 0)
-                {
-                    DestroyBody(true);
-                }
-                break;
-            case "Planet":
-                Vector3 shipPos = GameManager.GetShipPos();
-                float dist = Vector3.Distance(shipPos, transform.position);
 
-                if (dist > 77f)
-                    return;
-                
-                DestroyBody(true);
-                break;
-            case "Sun":
-                DestroyBody(true);
-                break;
-            case "Ship":
-                DestroyBody(true);
-                GameManager.EndGame();
-                break;
-        }
     }
 
     public override void DestroyBody(bool spawnDebris)
     {
-        if (spawnDebris)
-        {
-            GameObject obj = ObjectPooler.GetExplosionObj();
-            obj.transform.SetPositionAndRotation(transform.position, transform.rotation);
-            obj.SetActive(true);
-        }
-        ObjectPooler.DestroyPlanet(gameObject, orbitPoint);
+
     }
 }
