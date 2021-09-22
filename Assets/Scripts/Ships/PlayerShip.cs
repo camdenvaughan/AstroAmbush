@@ -33,6 +33,9 @@ public class PlayerShip : ShipBase
         SetControls();
         uiNav.PauseStateChanged += OnPauseStateChanged;
         currentTime = alienSpawnTimer;
+        coolDownTime = cooldownWaitTime;
+        uiNav.InitCoolDownBar(cooldownWaitTime);
+        uiNav.InitHealthBar(healthPoints);
     }
 
     protected override void HandleActions()
@@ -80,10 +83,11 @@ public class PlayerShip : ShipBase
     {
         if (isOnCoolDown)
         {
-            coolDownTime += Time.deltaTime;
-            if (coolDownTime > cooldownWaitTime)
+            coolDownTime -= Time.deltaTime;
+            uiNav.SetCoolDownBar(coolDownTime);
+            if (coolDownTime < 0)
             {
-                coolDownTime = 0f;
+                coolDownTime = cooldownWaitTime;
                 isOnCoolDown = false;
             }
             else
@@ -137,6 +141,7 @@ public class PlayerShip : ShipBase
             }
             else
                 Explode();
+            uiNav.SetHealthBar(healthPoints);
         }
         
     }
@@ -147,6 +152,7 @@ public class PlayerShip : ShipBase
         obj.transform.position = transform.position;
         obj.SetActive(true);
         GameManager.EndGame();
+
         // play explosion
         audioManager.Play("explosion");
         shipMesh.SetActive(false);

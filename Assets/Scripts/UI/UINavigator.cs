@@ -25,6 +25,9 @@ public class UINavigator : MonoBehaviour
     [SerializeField] private Text highScore;
     [SerializeField] private Text clickText;
     private Animator addedTextAnim;
+
+    [SerializeField] private Slider healthBar;
+    [SerializeField] private Slider coolDownBar;
     
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider effectsVolumeSlider;
@@ -114,6 +117,28 @@ public class UINavigator : MonoBehaviour
     public void PlayButtonClick()
     {
         audioManager.Play("button");
+    }
+
+    public void InitHealthBar(int maxHealth)
+    {
+        healthBar.maxValue = maxHealth;
+        healthBar.value = maxHealth;
+    }
+
+    public void SetHealthBar(int healthPoints)
+    {
+        healthBar.value = healthPoints;
+    }
+
+    public void InitCoolDownBar(float maxTimer)
+    {
+        coolDownBar.maxValue = maxTimer;
+        coolDownBar.value = -1;
+    }
+
+    public void SetCoolDownBar(float timer)
+    {
+        coolDownBar.value = timer;
     }
 
     public void LoadScene(int index)
