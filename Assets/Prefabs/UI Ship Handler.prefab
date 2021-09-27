@@ -46,12 +46,21 @@ MonoBehaviour:
   rotationSpeed: 1
   shipTrans: {fileID: 0}
   cameraTrans: {fileID: 0}
+  planetTrans: {fileID: 0}
+  pauseZoom: 0
   settingsZoom: -7
   controlsZoom: -4
   volumeZoom: -4
   volumeYHeight: 4
+  nameZoom: -2
+  nameYHeight: 1.25
+  nameXOffset: -1.75
+  planetZoom: 1
+  planetXOffset: 4
+  pauseShipRotation: {x: 0, y: 0, z: 0}
   controlsShipRotation: {x: 0, y: 0, z: 90}
   volumeShipRotation: {x: 180, y: 180, z: 0}
+  nameShipRotation: {x: 0, y: 0, z: 56}
   rightBoosters:
   - {fileID: 0}
   - {fileID: 0}

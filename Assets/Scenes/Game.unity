@@ -1777,6 +1777,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1586567877371317444, guid: 25efdd79e6e78c248be34659f14a9a1c,
+        type: 3}
+      propertyPath: m_SelectionColor.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1586567877371317444, guid: 25efdd79e6e78c248be34659f14a9a1c,
+        type: 3}
+      propertyPath: m_SelectionColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1586567877371317444, guid: 25efdd79e6e78c248be34659f14a9a1c,
+        type: 3}
+      propertyPath: m_SelectionColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1586567877371317444, guid: 25efdd79e6e78c248be34659f14a9a1c,
+        type: 3}
+      propertyPath: m_SelectionColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3215197632438813872, guid: 25efdd79e6e78c248be34659f14a9a1c,
         type: 3}
       propertyPath: m_RootOrder
@@ -1832,55 +1852,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3215197632438813875, guid: 25efdd79e6e78c248be34659f14a9a1c,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 51771fa80c20207469c46250cb2951ef, type: 2}
     - target: {fileID: 3215197632438813879, guid: 25efdd79e6e78c248be34659f14a9a1c,
         type: 3}
       propertyPath: m_Name
       value: Ship
       objectReference: {fileID: 0}
-    - target: {fileID: 3215197632438813884, guid: 25efdd79e6e78c248be34659f14a9a1c,
-        type: 3}
-      propertyPath: m_Size.z
-      value: 3.1300788
-      objectReference: {fileID: 0}
-    - target: {fileID: 3215197632438813884, guid: 25efdd79e6e78c248be34659f14a9a1c,
-        type: 3}
-      propertyPath: m_Center.z
-      value: -0.31447226
-      objectReference: {fileID: 0}
-    - target: {fileID: 3215197632438813884, guid: 25efdd79e6e78c248be34659f14a9a1c,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3215197632438813885, guid: 25efdd79e6e78c248be34659f14a9a1c,
         type: 3}
       propertyPath: shipAnim
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3215197632438813885, guid: 25efdd79e6e78c248be34659f14a9a1c,
-        type: 3}
-      propertyPath: alienSpawnTimer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3215197632438813885, guid: 25efdd79e6e78c248be34659f14a9a1c,
-        type: 3}
-      propertyPath: cooldownWaitTime
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3215197632438813885, guid: 25efdd79e6e78c248be34659f14a9a1c,
-        type: 3}
-      propertyPath: consecutiveShotTime
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3215197632438813885, guid: 25efdd79e6e78c248be34659f14a9a1c,
-        type: 3}
-      propertyPath: shotsBeforeCooldown
-      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25efdd79e6e78c248be34659f14a9a1c, type: 3}

@@ -1,24 +1,31 @@
 ﻿using System;
 using System.Collections;
+using PlayFab.ClientModels;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
+using UnityEngine.Serialization;
 
 
 public class UINavigator : MonoBehaviour
 {
-    [SerializeField] GameObject titleMenuUI;
-    [SerializeField] GameObject pauseUI;
-    [SerializeField] GameObject gameOverUI;
-    [SerializeField] GameObject gameTimeUI;
+    [Header("UI Screens")]
+    [SerializeField] private GameObject menuScreen;
+    [SerializeField] private GameObject pauseScreen;
+    [SerializeField] private GameObject gameOverScreen;
+    [SerializeField] private GameObject gameScreen;
     [SerializeField] private GameObject settingsScreen;
     [SerializeField] private GameObject controlsScreen;
     [SerializeField] private GameObject volumeScreen;
     [SerializeField] private GameObject leaderboardScreen;
+    [SerializeField] private GameObject changeNameScreen;
+    
+    [Header("Fader and Fader Properties")]
     [SerializeField] CanvasGroup fader;
     [SerializeField] float fadeTime;
 
+    [Header("Game UI Text Objects")]
     [SerializeField] private Text scoreText;
     [SerializeField] private Text addedText;
     [SerializeField] private Text finalScore;
@@ -26,21 +33,36 @@ public class UINavigator : MonoBehaviour
     [SerializeField] private Text clickText;
     private Animator addedTextAnim;
 
+    [Header("Game UI Progress Bars")]
     [SerializeField] private Slider healthBar;
-    [SerializeField] private Slider coolDownBar;
+    [SerializeField] private Image coolDownBar;
     
+    [Header("Volume Sliders and Text Objects")]
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider effectsVolumeSlider;
     [SerializeField] private Text volumePercentage;
     [SerializeField] private Text effectPercentage;
 
-    public AudioManager audioManager;
+    [Header("Buttons (Control Layouts)")]
+    [SerializeField] private Button keyboardControls;
+    [SerializeField] private Button mouseControls;
 
+    [Header("Audio Manager Prefab")]
+    public GameObject audioManagerPrefab;
+    [HideInInspector] public AudioManager audioManager;
+    [SerializeField] private AudioMixer mixer;
+
+
+    [Header("LeaderBoard Objects")]
     public string[] leaderBoardItems = new string[10];
     [SerializeField] private Text[] leaderboardSlots = new Text[10];
     [SerializeField] private Text connectionErrorText;
+    [SerializeField] private GameObject rowPrefab;
+    [SerializeField] private Transform rowsParent;
 
-    [SerializeField] private AudioMixer Mixer;
+    
+
+    private string cachedDisplayName;
     
 
     private UIShipHandler uiShipHandler;
@@ -55,7 +77,15 @@ public class UINavigator : MonoBehaviour
     {
         SetDependencies();
     }
-
+    
+    private void SetDependencies()
+    {
+        uiShipHandler = GameObject.FindObjectOfType<UIShipHandler>();
+        musicVolumeSlider.value = PlayerPrefs.GetFloat("musicVolume", .75f);
+        effectsVolumeSlider.value = PlayerPrefs.GetFloat("effectsVolume", .75f);
+        addedTextAnim = addedText.gameObject.GetComponent<Animator>();
+        audioManager = Instantiate(audioManagerPrefab).GetComponent<AudioManager>();
+    }
     private void Start()
     {
         StartCoroutine(FadeIn());
@@ -63,43 +93,36 @@ public class UINavigator : MonoBehaviour
             SetTitleUI();
         else if (SceneManager.GetSceneByBuildIndex(1).isLoaded)
             SetGameTimeUI();
-        Mixer.SetFloat("musicVolume", Mathf.Log10(PlayerPrefs.GetFloat("musicVolume")) * 20);
-        Mixer.SetFloat("effectsVolume", Mathf.Log10(PlayerPrefs.GetFloat("effectsVolume")) * 20);
+        mixer.SetFloat("musicVolume", Mathf.Log10(PlayerPrefs.GetFloat("musicVolume")) * 20);
+        mixer.SetFloat("effectsVolume", Mathf.Log10(PlayerPrefs.GetFloat("effectsVolume")) * 20);
         isFullScreen = PlayerPrefs.GetInt("isFullScreen", 0) == 0;
     }
 
     private void SetGameTimeUI()
     {
-        titleMenuUI.SetActive(false);
-        pauseUI.SetActive(false);
-        gameOverUI.SetActive(false);
+        menuScreen.SetActive(false);
+        pauseScreen.SetActive(false);
+        gameOverScreen.SetActive(false);
         settingsScreen.SetActive(false);
         controlsScreen.SetActive(false);
         volumeScreen.SetActive(false);
         leaderboardScreen.SetActive(false);
-        gameTimeUI.SetActive(true);
+        changeNameScreen.SetActive(false);
+        gameScreen.SetActive(true);
     }
     private void SetTitleUI()
     {
-        pauseUI.SetActive(false);
-        gameOverUI.SetActive(false);
-        gameTimeUI.SetActive(false);
+        pauseScreen.SetActive(false);
+        gameOverScreen.SetActive(false);
+        gameScreen.SetActive(false);
         settingsScreen.SetActive(false);
         controlsScreen.SetActive(false);
         volumeScreen.SetActive(false);
         leaderboardScreen.SetActive(false);
-        titleMenuUI.SetActive(true);
+        changeNameScreen.SetActive(false);
+        menuScreen.SetActive(true);
     }
 
-    private void SetDependencies()
-    {
-        uiShipHandler = GameObject.FindObjectOfType<UIShipHandler>();
-        musicVolumeSlider.value = PlayerPrefs.GetFloat("musicVolume", .75f);
-        effectsVolumeSlider.value = PlayerPrefs.GetFloat("effectsVolume", .75f);
-        addedTextAnim = addedText.gameObject.GetComponent<Animator>();
-    }
-    
-    
     protected virtual void OnPauseStateChanged()
     {
         PauseStateChanged?.Invoke(this, EventArgs.Empty);
@@ -130,31 +153,24 @@ public class UINavigator : MonoBehaviour
         healthBar.value = healthPoints;
     }
 
-    public void InitCoolDownBar(float maxTimer)
+    public void InitCoolDownBar()
     {
-        coolDownBar.maxValue = maxTimer;
-        coolDownBar.value = -1;
+        coolDownBar.fillAmount = 0f;
     }
 
-    public void SetCoolDownBar(float timer)
+    public void SetCoolDownBar(float timer, float waitTime)
     {
-        coolDownBar.value = timer;
+        coolDownBar.fillAmount = timer / waitTime;
     }
 
     public void LoadScene(int index)
     {
         StartCoroutine(FadeOut(index));
     }
-    
-    public void OnFullScreenToggle()
-    {
-        PlayerPrefs.SetInt("isFullScreen", isFullScreen ? 0 : 1);
-        Screen.fullScreen = isFullScreen;
-    }
 
     public void SetMusicVolume(float volume)
     {
-        Mixer.SetFloat("musicVolume", Mathf.Log10(volume) * 20);
+        mixer.SetFloat("musicVolume", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("musicVolume", volume);
         int percentage = Mathf.RoundToInt(musicVolumeSlider.value * 100);
         volumePercentage.text = percentage.ToString() + "%";
@@ -198,7 +214,7 @@ public class UINavigator : MonoBehaviour
 
     public void SetEffectVolume(float volume)
     {
-        Mixer.SetFloat("effectsVolume", Mathf.Log10(volume) * 20);
+        mixer.SetFloat("effectsVolume", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("effectsVolume", volume);
         int percentage = Mathf.RoundToInt(effectsVolumeSlider.value * 100);
         effectPercentage.text = percentage.ToString() + "%";
@@ -210,10 +226,14 @@ public class UINavigator : MonoBehaviour
         if (state == 0)
         {
             PlayerPrefs.SetInt("controlLayout", 0);
+            mouseControls.GetComponent<Animator>().SetBool("isSelected", true);
+            keyboardControls.GetComponent<Animator>().SetBool("isSelected", false);
         }
         else if (state == 1)
         {
             PlayerPrefs.SetInt("controlLayout", 1);
+            mouseControls.GetComponent<Animator>().SetBool("isSelected", false);
+            keyboardControls.GetComponent<Animator>().SetBool("isSelected", true);
         }
         else
         {
@@ -223,15 +243,14 @@ public class UINavigator : MonoBehaviour
 
     public void ChangePauseState()
     {
-        if (pauseUI.gameObject.activeInHierarchy)
+        if (pauseScreen.gameObject.activeInHierarchy)
         {
-            pauseUI.SetActive(false);
-            gameTimeUI.SetActive(true);
+            pauseScreen.SetActive(false);
             ClosePauseScreen();
         }
         else
         {
-            gameTimeUI.SetActive(false);
+            gameScreen.SetActive(false);
         }
         OnPauseStateChanged();
     }
@@ -263,8 +282,8 @@ public class UINavigator : MonoBehaviour
 
     public void EndGame()
     {
-        gameTimeUI.SetActive(false);
-        gameOverUI.SetActive(true);
+        gameScreen.SetActive(false);
+        gameOverScreen.SetActive(true);
     }
     
     // Settings
@@ -277,7 +296,7 @@ public class UINavigator : MonoBehaviour
 
     public void MoveToPauseScreen()
     {
-        uiShipHandler.MoveCameraToPauseLoc(pauseUI);
+        uiShipHandler.MoveCameraToPauseLoc(pauseScreen);
     }
     public void OpenSettings()
     {
@@ -291,7 +310,7 @@ public class UINavigator : MonoBehaviour
 
     public void MoveToControlsScreen()
     {
-        uiShipHandler.MoveCameraToControlsLoc(controlsScreen);
+        uiShipHandler.MoveCameraToControlsLoc(controlsScreen, mouseControls, keyboardControls);
     }
 
     public void MoveToVolumeScreen()
@@ -301,16 +320,21 @@ public class UINavigator : MonoBehaviour
 
     }
 
+    public void MoveToChangeNameScreen()
+    {
+        uiShipHandler.MoveCameraToChangeNameLoc(changeNameScreen);
+    }
+
     public void ClosePauseScreen()
     {
-        uiShipHandler.ClosePauseScreen();
+        uiShipHandler.ClosePauseScreen(gameScreen);
     }
     
 
     public void CloseSettings()
     {
         if (SceneManager.GetActiveScene().buildIndex == 0)
-            uiShipHandler.CloseSettings(titleMenuUI);
+            uiShipHandler.CloseSettings(menuScreen);
         else
             MoveToPauseScreen();
         
@@ -318,33 +342,30 @@ public class UINavigator : MonoBehaviour
 
     public void OpenLeaderBoard()
     {
-        GetLeaderBoard();
         uiShipHandler.OpenLeaderBoard(leaderboardScreen);
-
+        GetComponent<PlayFabManager>().GetLeaderBoard();
     }
 
-    private void GetLeaderBoard()
+    public void OnLeaderBoardGet(GetLeaderboardResult result)
     {
-        PlayFabManager playFabManager = GetComponent<PlayFabManager>();
-
-        foreach (Text slot in leaderboardSlots)
+        foreach (Transform child in rowsParent)
         {
-            slot.gameObject.SetActive(playFabManager.connected);
+            Destroy(child.gameObject);
         }
-        connectionErrorText.gameObject.SetActive(!playFabManager.connected);
-        
-        playFabManager.GetLeaderBoard();
-        for (int i = 0; i < leaderBoardItems.Length; i++)
+
+        foreach (PlayerLeaderboardEntry item in result.Leaderboard)
         {
-            if (leaderBoardItems[i] != null)
-            {
-                leaderboardSlots[i].text = leaderBoardItems[i];
-            }
+            GameObject newRow = Instantiate(rowPrefab, rowsParent);
+            Text[] rowTexts = newRow.GetComponentsInChildren<Text>();
+
+            rowTexts[0].text = (item.Position + 1).ToString();
+            rowTexts[1].text = item.DisplayName;
+            rowTexts[2].text = item.StatValue.ToString();
         }
     }
 
     public void CloseLeaderBoard()
     {
-        uiShipHandler.CloseLeaderBoard(titleMenuUI);
+        uiShipHandler.CloseLeaderBoard(menuScreen);
     }
 }

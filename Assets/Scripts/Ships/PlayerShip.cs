@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
-
+using UnityEngine.UI;
 public class PlayerShip : ShipBase
 {
     private KeyboardInputController keyboardController;
@@ -10,17 +10,18 @@ public class PlayerShip : ShipBase
     [SerializeField] private int shotsBeforeCooldown;
     [SerializeField] private float consecutiveShotTime;
     [SerializeField] private float cooldownWaitTime;
+    [SerializeField] private float currentShotTimeMultiplier;
     
     [SerializeField] private GameObject[] spawnPoints;
     [SerializeField] private GameObject shipMesh;
     [SerializeField] private float alienSpawnTimer;
 
-    [SerializeField] private ParticleSystem hitEffect;
-
     [SerializeField] private int healthPoints;
     
     private float currentTime;
     private float coolDownTime;
+
+    private float currentShotsTimer = 0;
 
     private int shots;
     private bool isOnCoolDown = false;
@@ -33,9 +34,11 @@ public class PlayerShip : ShipBase
         SetControls();
         uiNav.PauseStateChanged += OnPauseStateChanged;
         currentTime = alienSpawnTimer;
-        coolDownTime = cooldownWaitTime;
-        uiNav.InitCoolDownBar(cooldownWaitTime);
+        coolDownTime = 0;
+        uiNav.InitCoolDownBar();
         uiNav.InitHealthBar(healthPoints);
+        GetComponentInChildren<InputField>().text = PlayerPrefs.GetString("displayName", "NEW");
+
     }
 
     protected override void HandleActions()
@@ -59,32 +62,46 @@ public class PlayerShip : ShipBase
     private void CoolDownTimer()
     {
         consecutiveShotTimer += Time.deltaTime;
-
-        if (!activeController.fire) return;
-            
-        if (consecutiveShotTimer < consecutiveShotTime)
-        {
-            shots++;
-        }
+        if (currentShotsTimer > 0)
+            currentShotsTimer -= Time.deltaTime * currentShotTimeMultiplier;
         else
-        {
-            shots = 0;
-        }
-        consecutiveShotTimer = 0f;
+            currentShotsTimer = 0;
 
-        if (shots > shotsBeforeCooldown)
+        if (activeController.fire)
         {
-            isOnCoolDown = true;
-            shots = 0;
+            if (consecutiveShotTimer < consecutiveShotTime)
+            {
+                shots++;
+            }
+            else
+            {
+                shots = 1;
+            }
+            consecutiveShotTimer = 0f;
+            
+            float i = (float)shots / ((float)shotsBeforeCooldown + 1);
+            currentShotsTimer = cooldownWaitTime * i;
+
+            if (shots > shotsBeforeCooldown)
+            {
+                isOnCoolDown = true;
+                coolDownTime = cooldownWaitTime;
+                shots = 0;
+                currentShotsTimer = 0;
+            }
         }
+        
+        uiNav.SetCoolDownBar(currentShotsTimer, cooldownWaitTime);
     }
 
     protected override void Shoot()
     {
+
+
         if (isOnCoolDown)
         {
             coolDownTime -= Time.deltaTime;
-            uiNav.SetCoolDownBar(coolDownTime);
+            uiNav.SetCoolDownBar(coolDownTime, cooldownWaitTime);
             if (coolDownTime < 0)
             {
                 coolDownTime = cooldownWaitTime;
@@ -137,7 +154,7 @@ public class PlayerShip : ShipBase
                 healthPoints--;
                 // Play Sound
                 // Animate
-                hitEffect.Play();
+                anim.SetTrigger("hit");
             }
             else
                 Explode();
@@ -155,7 +172,7 @@ public class PlayerShip : ShipBase
 
         // play explosion
         audioManager.Play("explosion");
-        shipMesh.SetActive(false);
+        Destroy(shipMesh);
         ParticleSystem[] particleSystems = gameObject.GetComponentsInChildren<ParticleSystem>();
         foreach (ParticleSystem system in particleSystems)
         {

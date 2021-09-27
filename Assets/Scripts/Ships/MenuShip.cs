@@ -1,10 +1,12 @@
-
+using UnityEngine;
+using UnityEngine.UI;
 public class MenuShip : ShipBase
 {
-    private void Start()
+    protected override void SetDependencies()
     {
-        movement = GetComponent<ShipMovementController>();
+        base.SetDependencies();
         activeController = gameObject.AddComponent<MouseInputController>();
+        GetComponentInChildren<InputField>().text = PlayerPrefs.GetString("displayName", "NEW");
     }
 
     protected override void HandleActions()

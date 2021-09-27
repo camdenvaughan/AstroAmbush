@@ -1,10 +1,9 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Cinemachine;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
+using UnityEngine.UI;
 
 public class UIShipHandler : MonoBehaviour
 {
@@ -17,11 +16,15 @@ public class UIShipHandler : MonoBehaviour
     [SerializeField] private float controlsZoom;
     [SerializeField] private float volumeZoom;
     [SerializeField] private float volumeYHeight;
+    [SerializeField] private float nameZoom;
+    [SerializeField] private float nameYHeight;
+    [SerializeField] private float nameXOffset;
     [SerializeField] private float planetZoom;
     [SerializeField] private float planetXOffset;
     [SerializeField] private Vector3 pauseShipRotation;
     [SerializeField] private Vector3 controlsShipRotation;
     [SerializeField] private Vector3 volumeShipRotation;
+    [SerializeField] private Vector3 nameShipRotation;
 
     [SerializeField] private ParticleSystem[] rightBoosters = new ParticleSystem[2];
     [SerializeField] private ParticleSystem[] leftBoosters = new ParticleSystem[2];
@@ -43,17 +46,21 @@ public class UIShipHandler : MonoBehaviour
 
     private bool onVolumeScreen = false;
 
+    private IEnumerator moveAndRotateCoroutine;
     private delegate void EndMoveFunction();
-    
-    private void Update()
-    {
-        if (!onVolumeScreen) return;
 
+    private void Start()
+    {
         rightMain = rightBoosters[0].main;
         rightSecondary = rightBoosters[1].main;
         leftMain = leftBoosters[0].main;
         leftSecondary = leftBoosters[1].main;
-            
+    }
+
+    private void Update()
+    {
+        if (!onVolumeScreen) return;
+
         leftMain.startLifetime = PlayerPrefs.GetFloat("musicVolume") + mainBoosterMin;
         leftSecondary.startLifetime = (PlayerPrefs.GetFloat("musicVolume") + secondaryBoosterMin);
             
@@ -69,18 +76,22 @@ public class UIShipHandler : MonoBehaviour
         cameraBrain.enabled = false;
 
         cameraPos = cameraTrans.position;
-        TurnOnBoosters(false);
+        SetBoosters(false);
     }
 
-    public void ClosePauseScreen()
+    public void ClosePauseScreen(GameObject gameScreen)
     {
         cameraPos = new Vector3(shipPos.x, shipPos.y, cameraPos.z);
-        StartCoroutine(MoveCameraAndShip(cameraTrans, cameraTrans.position, cameraPos, shipTrans, shipTrans.rotation,
+        if (moveAndRotateCoroutine != null)
+            StopCoroutine(moveAndRotateCoroutine);
+        moveAndRotateCoroutine = MoveCameraAndShip(cameraTrans, cameraTrans.position, cameraPos, shipTrans, shipTrans.rotation,
             shipRot, () =>
             {
                 cameraBrain.enabled = true;
-                TurnOnBoosters(true);
-            }));
+                SetBoosters(true);
+                gameScreen.SetActive(true);
+            });
+        StartCoroutine(moveAndRotateCoroutine);
     }
     
     public void OpenSettings()
@@ -90,18 +101,21 @@ public class UIShipHandler : MonoBehaviour
         cameraPos = cameraTrans.position;
         shipTrans.gameObject.GetComponent<MenuShip>().enabled = false;
         shipTrans.gameObject.GetComponent<Animator>().SetFloat("rotation", 0);
-        TurnOnBoosters(false);
+        SetBoosters(false);
     }
 
     public void CloseSettings(GameObject menuScreen)
     {
-        StartCoroutine(MoveCameraAndShip(cameraTrans, cameraTrans.position, cameraPos, cameraTrans, 
+        if (moveAndRotateCoroutine != null)
+            StopCoroutine(moveAndRotateCoroutine);
+        moveAndRotateCoroutine = MoveCameraAndShip(cameraTrans, cameraTrans.position, cameraPos, cameraTrans, 
             cameraTrans.rotation, quaternion.identity, () =>
             {
                 shipTrans.gameObject.GetComponent<MenuShip>().enabled = true;
-                TurnOnBoosters(true);
+                SetBoosters(true);
                 menuScreen.SetActive(true);
-            }));
+            });
+        StartCoroutine(moveAndRotateCoroutine);
     }
 
     public void OpenLeaderBoard(GameObject leaderBoardScreen)
@@ -112,70 +126,127 @@ public class UIShipHandler : MonoBehaviour
         shipTrans.gameObject.GetComponent<MenuShip>().enabled = false;
 
         Vector3 planetPos = new Vector3(planetTrans.position.x + planetXOffset, planetTrans.position.y, planetZoom);
-        StartCoroutine(MoveCameraAndShip(cameraTrans, cameraTrans.position, planetPos, cameraTrans,
+        
+        if (moveAndRotateCoroutine != null)
+            StopCoroutine(moveAndRotateCoroutine);
+        moveAndRotateCoroutine = MoveCameraAndShip(cameraTrans, cameraTrans.position, planetPos, cameraTrans,
             cameraTrans.rotation, quaternion.identity, () =>
             {
                 Vector3 shipOrigin = new Vector3(0f, 0f, shipTrans.position.z);
                 shipTrans.position = shipOrigin;
                 leaderBoardScreen.SetActive(true);
-            }));
+            });
+        StartCoroutine(moveAndRotateCoroutine);
     }
 
     public void CloseLeaderBoard(GameObject menuScreen)
     {
-        StartCoroutine(MoveCameraAndShip(cameraTrans, cameraTrans.position, cameraPos, cameraTrans,
+        if (moveAndRotateCoroutine != null)
+            StopCoroutine(moveAndRotateCoroutine);
+        moveAndRotateCoroutine = MoveCameraAndShip(cameraTrans, cameraTrans.position, cameraPos, cameraTrans,
             cameraTrans.rotation, quaternion.identity,
             () =>
             {
                 shipTrans.gameObject.GetComponent<MenuShip>().enabled = true;
                 menuScreen.SetActive(true);
                 planetTrans.gameObject.GetComponent<Planet>().resolution = 75;
-            }));
+            });
+        
+        StartCoroutine(moveAndRotateCoroutine);
     }
     
     public void MoveCameraToPauseLoc(GameObject pauseScreen)
     {
-        TurnOnBoosters(false);
+        SetBoosters(false);
         Vector3 pauseLoc = new Vector3(shipTrans.position.x, shipTrans.position.y, pauseZoom);
-        StartCoroutine(MoveCameraAndShip(cameraTrans, cameraTrans.localPosition, pauseLoc, shipTrans,
-            shipTrans.rotation, Quaternion.Euler(pauseShipRotation), () => { pauseScreen.SetActive(true); }));
+        
+        if (moveAndRotateCoroutine != null)
+            StopCoroutine(moveAndRotateCoroutine);
+        moveAndRotateCoroutine = MoveCameraAndShip(cameraTrans, cameraTrans.localPosition, pauseLoc, shipTrans,
+            shipTrans.rotation, Quaternion.Euler(pauseShipRotation), () => { pauseScreen.SetActive(true); });
+        StartCoroutine(moveAndRotateCoroutine);
     }
     public void MoveCameraToSettingsLoc(GameObject settingsScreen)
     {
         onVolumeScreen = false;
-        TurnOnBoosters(false);
+        SetBoosters(false);
         Vector3 settingsLoc = new Vector3(shipTrans.position.x, shipTrans.position.y, settingsZoom);
-        StartCoroutine(MoveCameraAndShip(cameraTrans, cameraTrans.localPosition, settingsLoc, shipTrans, shipTrans.rotation,
-            Quaternion.identity, () => { settingsScreen.SetActive(true); }));
+        
+        if (moveAndRotateCoroutine != null)
+            StopCoroutine(moveAndRotateCoroutine);
+        moveAndRotateCoroutine = MoveCameraAndShip(cameraTrans, cameraTrans.localPosition, settingsLoc, shipTrans, shipTrans.rotation,
+            Quaternion.identity, () => { settingsScreen.SetActive(true); });
+        StartCoroutine(moveAndRotateCoroutine);
     }
 
-    public void MoveCameraToControlsLoc(GameObject controlsScreen)
+    public void MoveCameraToControlsLoc(GameObject controlsScreen, Button mouseControls, Button keyboardControls)
     {
         Vector3 controlsLoc = new Vector3(shipTrans.position.x, shipTrans.position.y, controlsZoom);
-        StartCoroutine(MoveCameraAndShip(cameraTrans, cameraTrans.localPosition, controlsLoc,  shipTrans, shipTrans.rotation,
-            Quaternion.Euler(controlsShipRotation), () => { controlsScreen.SetActive(true); }));
+        
+        if (moveAndRotateCoroutine != null)
+            StopCoroutine(moveAndRotateCoroutine);
+        moveAndRotateCoroutine = MoveCameraAndShip(cameraTrans, cameraTrans.localPosition, controlsLoc,  shipTrans, shipTrans.rotation,
+            Quaternion.Euler(controlsShipRotation), () =>
+            {
+                controlsScreen.SetActive(true);
+                if (PlayerPrefs.GetInt("controlLayout", 0) == 0)
+                {
+                    mouseControls.GetComponent<Animator>().SetBool("isSelected", true);
+                    keyboardControls.GetComponent<Animator>().SetBool("isSelected", false);
+                }
+                else
+                {
+                    mouseControls.GetComponent<Animator>().SetBool("isSelected", false);
+                    keyboardControls.GetComponent<Animator>().SetBool("isSelected", true);
+                }
+            });
+        StartCoroutine(moveAndRotateCoroutine);
+    }
+
+    public void MoveCameraToChangeNameLoc(GameObject changeNameScreen)
+    {
+        Vector3 nameLoc = new Vector3(shipTrans.position.x + nameXOffset, shipTrans.position.y + nameYHeight, nameZoom);
+        
+        if (moveAndRotateCoroutine != null)
+            StopCoroutine(moveAndRotateCoroutine);
+        moveAndRotateCoroutine = MoveCameraAndShip(cameraTrans, cameraTrans.localPosition, nameLoc, shipTrans,
+            shipTrans.rotation, Quaternion.Euler(nameShipRotation),
+            () =>
+            {
+                changeNameScreen.SetActive(true);
+                InputField inputField = shipTrans.GetComponentInChildren<InputField>();
+                inputField.text = "";
+                inputField.ActivateInputField();
+            });
+        StartCoroutine(moveAndRotateCoroutine);
     }
 
     public void MoveCameraToVolumeLoc(GameObject volumeScreen)
     {
         onVolumeScreen = true;
         Vector3 volumeLoc = new Vector3(shipTrans.position.x, shipTrans.position.y + volumeYHeight, volumeZoom);
-        StartCoroutine(MoveCameraAndShip(cameraTrans, cameraTrans.localPosition, volumeLoc, shipTrans, shipTrans.rotation,
+        
+        if (moveAndRotateCoroutine != null)
+            StopCoroutine(moveAndRotateCoroutine);
+        moveAndRotateCoroutine = MoveCameraAndShip(cameraTrans, cameraTrans.localPosition, volumeLoc, shipTrans, shipTrans.rotation,
             Quaternion.Euler(volumeShipRotation), () =>
             {
-                TurnOnBoosters(true);
+                SetBoosters(true);
                 volumeScreen.SetActive(true);
-            }));
+            });
+        StartCoroutine(moveAndRotateCoroutine);
     }
 
-    private void TurnOnBoosters(bool turnOn)
+    private void SetBoosters(bool isActive)
     {
-        rightBoosters[0].gameObject.SetActive(turnOn);
-        leftBoosters[0].gameObject.SetActive(turnOn);
+        rightBoosters[0].gameObject.SetActive(isActive);
+        leftBoosters[0].gameObject.SetActive(isActive);
     }
     
     private IEnumerator MoveCameraAndShip (Transform moveTransform, Vector3 startPos, Vector3 endPos, Transform rotationTransform, Quaternion startRot, Quaternion endRot, EndMoveFunction function = null)
     {
+        if (GameManager.current != null)
+            GameManager.ToggleInput();
         float i = 0;
         float rate = 1/rotationSpeed;
         while (i < 1)         
@@ -186,6 +257,8 @@ public class UIShipHandler : MonoBehaviour
             yield return 0;
         }
         function?.Invoke();
+        if (GameManager.current != null)
+            GameManager.ToggleInput();
         yield return 0;
     }
 }

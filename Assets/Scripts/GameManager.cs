@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     private GameState state = GameState.WaitingForInput;
 
     private bool gameHasStarted = false;
+
+    private bool inputIsDisabled = false;
     
     void Start()
     {
@@ -38,14 +40,15 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (inputIsDisabled) return;
+        
         if (state == GameState.Active)
         {
             timer += Time.deltaTime;
             uiNav.SetScore(timer);
-            
-            if (Input.GetKeyDown(KeyCode.Escape))
-                uiNav.ChangePauseState();
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+            uiNav.ChangePauseState();
 
     }
 
@@ -69,6 +72,8 @@ public class GameManager : MonoBehaviour
 
     public static void SetGameToActive()
     {
+        if (current.inputIsDisabled) return;
+        
         if (!current.gameHasStarted)
         {
             current.gameHasStarted = true;
@@ -111,5 +116,10 @@ public class GameManager : MonoBehaviour
         current.uiNav.SetFinalScore(current.timer);
         current.uiNav.SetHighScore(current.timer);
         current.uiNav.EndGame();
+    }
+
+    public static void ToggleInput()
+    {
+        current.inputIsDisabled = !current.inputIsDisabled;
     }
 }

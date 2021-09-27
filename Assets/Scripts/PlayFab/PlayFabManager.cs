@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
+using UnityEngine.PlayerLoop;
 
 public class PlayFabManager : MonoBehaviour
 {
-    private string[] leaderboardInfo = new string[10];
-
     public bool connected = false;
     // Start is called before the first frame update
     void Start()
@@ -20,8 +19,12 @@ public class PlayFabManager : MonoBehaviour
     {
         var request = new LoginWithCustomIDRequest
         {
-            CustomId = PlayerPrefs.GetString("leaderboardName", "NEW"),
-            CreateAccount = true
+            CustomId = SystemInfo.deviceUniqueIdentifier,
+            CreateAccount = true,
+            InfoRequestParameters = new GetPlayerCombinedInfoRequestParams
+            {
+                GetPlayerProfile = true
+            }
         };
         PlayFabClientAPI.LoginWithCustomID(request, OnSuccess, OnError);
     }
@@ -30,8 +33,7 @@ public class PlayFabManager : MonoBehaviour
     {
         Debug.Log("Successful Login/account creation");
         connected = true;
-        GetLeaderBoard();
-
+        UpdateDisplayName();
     }
 
     void OnError(PlayFabError error)
@@ -41,6 +43,20 @@ public class PlayFabManager : MonoBehaviour
         connected = false;
     }
 
+    public void UpdateDisplayName()
+    {
+        var request = new UpdateUserTitleDisplayNameRequest()
+        {
+            DisplayName = PlayerPrefs.GetString("displayName", "NEW"),
+        };
+        PlayFabClientAPI.UpdateUserTitleDisplayName(request, OnUpdateDisplayName, OnError);
+    }
+
+    void OnUpdateDisplayName(UpdateUserTitleDisplayNameResult result)
+    {
+        Debug.Log("Display Name Updated to " + result.DisplayName);
+    }
+    
     public void SendLeaderBoard(int score)
     {
         var request = new UpdatePlayerStatisticsRequest
@@ -70,18 +86,7 @@ public class PlayFabManager : MonoBehaviour
             StartPosition = 0,
             MaxResultsCount = 10
         };
-        PlayFabClientAPI.GetLeaderboard(request, OnLeaderboardGet, OnError);
-    }
-
-    void OnLeaderboardGet(GetLeaderboardResult result)
-    {
-        UINavigator uiNav = GetComponent<UINavigator>();
-        for (int i = 0; i < result.Leaderboard.Count; i++)
-        {
-            int position = result.Leaderboard[i].Position + 1;
-            string info = position + ". Score: " + result.Leaderboard[i].StatValue;
-
-            uiNav.leaderBoardItems[i] = info;
-        }
+        
+        PlayFabClientAPI.GetLeaderboard(request, GetComponent<UINavigator>().OnLeaderBoardGet, OnError);
     }
 }

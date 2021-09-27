@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1620087613003040966
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1620087613003040968}
+  - component: {fileID: 1620087613003040967}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1620087613003040968
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620087613003040966}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960, y: 540, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1620087613003040967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620087613003040966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f7f2896e94773e49912f1483ee9631a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: music
+    clip: {fileID: 8300000, guid: c7e61d4cd1401cb42939135d117ca68a, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    group: {fileID: 1154281015163628117, guid: 80cba2e8ed6114c40b11f4bf05951c5f, type: 2}
+    source: {fileID: 0}
+  - name: button
+    clip: {fileID: 8300000, guid: 5dc3051195702dc49b583ba25cb50437, type: 3}
+    volume: 0.452
+    pitch: 1
+    loop: 0
+    group: {fileID: 3702419286480456844, guid: 80cba2e8ed6114c40b11f4bf05951c5f, type: 2}
+    source: {fileID: 0}
+  - name: blaster
+    clip: {fileID: 8300000, guid: 281d4c9fe80222f449718dc2c8384bbf, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    group: {fileID: 3702419286480456844, guid: 80cba2e8ed6114c40b11f4bf05951c5f, type: 2}
+    source: {fileID: 0}
+  - name: volume knob
+    clip: {fileID: 8300000, guid: f6016aaf9fe65cf4aa624581d54dbd2f, type: 3}
+    volume: 0.795
+    pitch: 1
+    loop: 0
+    group: {fileID: 3702419286480456844, guid: 80cba2e8ed6114c40b11f4bf05951c5f, type: 2}
+    source: {fileID: 0}
+  - name: explosion
+    clip: {fileID: 8300000, guid: 08802133816d3124fbfc00dc9b7ef656, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    group: {fileID: 3702419286480456844, guid: 80cba2e8ed6114c40b11f4bf05951c5f, type: 2}
+    source: {fileID: 0}

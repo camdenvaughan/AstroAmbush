@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class ShipBase : MonoBehaviour
@@ -64,5 +64,15 @@ public class ShipBase : MonoBehaviour
         gunFlare[gunToggle].Play();
         audioManager.Play("blaster");
         shootFromLeft = !shootFromLeft;
+    }
+
+    public void UpdatedName(string name)
+    {
+        if (name != string.Empty)
+            PlayerPrefs.SetString("displayName", name);
+        else
+            GetComponentInChildren<InputField>().text = PlayerPrefs.GetString("displayName", "NEW");
+
+        uiNav.GetComponent<PlayFabManager>().UpdateDisplayName();
     }
 }
