@@ -8,8 +8,7 @@ using UnityEngine.PlayerLoop;
 
 public class PlayFabManager : MonoBehaviour
 {
-    public bool connected = false;
-    // Start is called before the first frame update
+
     void Start()
     {
         Login();
@@ -26,21 +25,24 @@ public class PlayFabManager : MonoBehaviour
                 GetPlayerProfile = true
             }
         };
-        PlayFabClientAPI.LoginWithCustomID(request, OnSuccess, OnError);
+        PlayFabClientAPI.LoginWithCustomID(request, OnSuccess, OnLoginError);
     }
 
     void OnSuccess(LoginResult result)
     {
         Debug.Log("Successful Login/account creation");
-        connected = true;
         UpdateDisplayName();
     }
 
-    void OnError(PlayFabError error)
+    void OnLoginError(PlayFabError error)
     {
         Debug.Log("error logging into playfab");
+        GetComponent<UINavigator>().connectionErrorText.gameObject.SetActive(true);
+    }
+    void OnError(PlayFabError error)
+    {
         Debug.Log(error.GenerateErrorReport());
-        connected = false;
+
     }
 
     public void UpdateDisplayName()

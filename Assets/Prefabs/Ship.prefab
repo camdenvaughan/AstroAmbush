@@ -19387,10 +19387,10 @@ MonoBehaviour:
   gunFlare:
   - {fileID: 3499645653764072741}
   - {fileID: 7512054817055942845}
-  shotsBeforeCooldown: 4
-  consecutiveShotTime: 0.5
-  cooldownWaitTime: 3
-  currentShotTimeMultiplier: 2.2
+  maxHealthPoints: 3
+  overheatAmount: 3
+  heatPerShot: 1
+  beforeOverheatMultiplier: 2
   spawnPoints:
   - {fileID: 8712231618061857392}
   - {fileID: 6907865748836897205}
@@ -19400,9 +19400,17 @@ MonoBehaviour:
   - {fileID: 7182780937407511778}
   - {fileID: 5790284608268101609}
   - {fileID: 1208083627218620534}
+  alienStartSpawnRate: 4
+  spawnRateDecreaseAmount: 0.1
   shipMesh: {fileID: 2332799632427056412}
-  alienSpawnTimer: 3
-  healthPoints: 3
+  particleSystems:
+  - {fileID: 1222762837554897017}
+  - {fileID: 4491721747521645833}
+  - {fileID: 1859102882196797617}
+  - {fileID: 5937701912195218324}
+  tutorialFlyTimer: 5
+  maxTutorialShots: 10
+  maxTutorialAvoidTimer: 6
 --- !u!1 &3215197633040694400
 GameObject:
   m_ObjectHideFlags: 0
@@ -19612,7 +19620,7 @@ MonoBehaviour:
       m_Calls: []
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
-  m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
+  m_SelectionColor: {r: 1, g: 1, b: 1, a: 0}
   m_Text: 
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 3

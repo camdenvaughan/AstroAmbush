@@ -1777,26 +1777,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1586567877371317444, guid: 25efdd79e6e78c248be34659f14a9a1c,
-        type: 3}
-      propertyPath: m_SelectionColor.a
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1586567877371317444, guid: 25efdd79e6e78c248be34659f14a9a1c,
-        type: 3}
-      propertyPath: m_SelectionColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1586567877371317444, guid: 25efdd79e6e78c248be34659f14a9a1c,
-        type: 3}
-      propertyPath: m_SelectionColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1586567877371317444, guid: 25efdd79e6e78c248be34659f14a9a1c,
-        type: 3}
-      propertyPath: m_SelectionColor.r
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3215197632438813872, guid: 25efdd79e6e78c248be34659f14a9a1c,
         type: 3}
       propertyPath: m_RootOrder
@@ -1856,11 +1836,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ship
-      objectReference: {fileID: 0}
-    - target: {fileID: 3215197632438813885, guid: 25efdd79e6e78c248be34659f14a9a1c,
-        type: 3}
-      propertyPath: shipAnim
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25efdd79e6e78c248be34659f14a9a1c, type: 3}

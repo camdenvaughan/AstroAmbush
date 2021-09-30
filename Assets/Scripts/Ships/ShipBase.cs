@@ -43,10 +43,9 @@ public class ShipBase : MonoBehaviour
 
     protected virtual void HandleActions()
     {
-        if (GameManager.GetState() == GameManager.GameState.Active)
+        if (GameManager.GetState() == GameManager.GameState.Active || GameManager.GetState() == GameManager.GameState.Tutorial)
         {
             Move();
-
             Shoot();
             return;
         }

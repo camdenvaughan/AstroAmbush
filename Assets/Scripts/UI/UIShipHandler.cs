@@ -239,8 +239,20 @@ public class UIShipHandler : MonoBehaviour
 
     private void SetBoosters(bool isActive)
     {
-        rightBoosters[0].gameObject.SetActive(isActive);
-        leftBoosters[0].gameObject.SetActive(isActive);
+        if (isActive)
+        {
+            foreach(ParticleSystem booster in rightBoosters)
+                booster.Play();
+            foreach(ParticleSystem booster in leftBoosters)
+                booster.Play();
+        }
+        else
+        {
+            foreach(ParticleSystem booster in rightBoosters)
+                booster.Stop();
+            foreach(ParticleSystem booster in leftBoosters)
+                booster.Stop();
+        }
     }
     
     private IEnumerator MoveCameraAndShip (Transform moveTransform, Vector3 startPos, Vector3 endPos, Transform rotationTransform, Quaternion startRot, Quaternion endRot, EndMoveFunction function = null)

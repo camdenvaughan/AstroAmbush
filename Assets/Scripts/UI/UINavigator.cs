@@ -15,6 +15,7 @@ public class UINavigator : MonoBehaviour
     [SerializeField] private GameObject pauseScreen;
     [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private GameObject gameScreen;
+    [SerializeField] private GameObject tutorialEndScreen;
     [SerializeField] private GameObject settingsScreen;
     [SerializeField] private GameObject controlsScreen;
     [SerializeField] private GameObject volumeScreen;
@@ -30,11 +31,12 @@ public class UINavigator : MonoBehaviour
     [SerializeField] private Text addedText;
     [SerializeField] private Text finalScore;
     [SerializeField] private Text highScore;
-    [SerializeField] private Text clickText;
+    [SerializeField] private Text topTutText;
+    [SerializeField] private Text bottomTutText;
     private Animator addedTextAnim;
 
     [Header("Game UI Progress Bars")]
-    [SerializeField] private Slider healthBar;
+    [SerializeField] private Image healthBar;
     [SerializeField] private Image coolDownBar;
     
     [Header("Volume Sliders and Text Objects")]
@@ -54,20 +56,15 @@ public class UINavigator : MonoBehaviour
 
 
     [Header("LeaderBoard Objects")]
-    public string[] leaderBoardItems = new string[10];
-    [SerializeField] private Text[] leaderboardSlots = new Text[10];
-    [SerializeField] private Text connectionErrorText;
+    public Text connectionErrorText;
     [SerializeField] private GameObject rowPrefab;
     [SerializeField] private Transform rowsParent;
 
-    
-
-    private string cachedDisplayName;
-    
 
     private UIShipHandler uiShipHandler;
 
-    private bool isFullScreen;
+    private bool hasPlayedTutorial = false;
+
 
     public delegate void PauseStateEventHandler(object source, EventArgs args);
 
@@ -80,22 +77,24 @@ public class UINavigator : MonoBehaviour
     
     private void SetDependencies()
     {
+        audioManager = FindObjectOfType<AudioManager>();
+        if (audioManager == null)
+            audioManager = Instantiate(audioManagerPrefab).GetComponent<AudioManager>();
         uiShipHandler = GameObject.FindObjectOfType<UIShipHandler>();
         musicVolumeSlider.value = PlayerPrefs.GetFloat("musicVolume", .75f);
         effectsVolumeSlider.value = PlayerPrefs.GetFloat("effectsVolume", .75f);
         addedTextAnim = addedText.gameObject.GetComponent<Animator>();
-        audioManager = Instantiate(audioManagerPrefab).GetComponent<AudioManager>();
+        hasPlayedTutorial = PlayerPrefs.GetInt("playedTutorial", 0) > 0;
     }
     private void Start()
     {
         StartCoroutine(FadeIn());
         if (SceneManager.GetSceneByBuildIndex(0).isLoaded)
             SetTitleUI();
-        else if (SceneManager.GetSceneByBuildIndex(1).isLoaded)
+        else if (SceneManager.GetSceneByBuildIndex(1).isLoaded || SceneManager.GetSceneByBuildIndex(2).isLoaded)
             SetGameTimeUI();
         mixer.SetFloat("musicVolume", Mathf.Log10(PlayerPrefs.GetFloat("musicVolume")) * 20);
         mixer.SetFloat("effectsVolume", Mathf.Log10(PlayerPrefs.GetFloat("effectsVolume")) * 20);
-        isFullScreen = PlayerPrefs.GetInt("isFullScreen", 0) == 0;
     }
 
     private void SetGameTimeUI()
@@ -108,6 +107,7 @@ public class UINavigator : MonoBehaviour
         volumeScreen.SetActive(false);
         leaderboardScreen.SetActive(false);
         changeNameScreen.SetActive(false);
+        tutorialEndScreen.SetActive(false);
         gameScreen.SetActive(true);
     }
     private void SetTitleUI()
@@ -120,6 +120,7 @@ public class UINavigator : MonoBehaviour
         volumeScreen.SetActive(false);
         leaderboardScreen.SetActive(false);
         changeNameScreen.SetActive(false);
+        tutorialEndScreen.SetActive(false);
         menuScreen.SetActive(true);
     }
 
@@ -132,9 +133,15 @@ public class UINavigator : MonoBehaviour
     {
         hideUI.SetActive(false);
     }
-    public void ShowUI(GameObject showUI)
+    
+    public void LoadScene(int index)
     {
-        showUI.SetActive(true);
+        StartCoroutine(FadeOut(index));
+    }
+
+    public void OpenWebsite(string url)
+    {
+        Application.OpenURL(url);
     }
 
     public void PlayButtonClick()
@@ -142,15 +149,32 @@ public class UINavigator : MonoBehaviour
         audioManager.Play("button");
     }
 
-    public void InitHealthBar(int maxHealth)
+    public void PlayButton()
     {
-        healthBar.maxValue = maxHealth;
-        healthBar.value = maxHealth;
+        if (hasPlayedTutorial)
+        {
+            LoadScene(1);
+        }
+        else
+        {
+            LoadTutorial();
+        }
     }
 
-    public void SetHealthBar(int healthPoints)
+    public void LoadTutorial()
     {
-        healthBar.value = healthPoints;
+        PlayerPrefs.SetInt("playedTutorial", 1);
+        LoadScene(2);
+    }
+
+    public void InitHealthBar()
+    {
+        healthBar.fillAmount = 1f;
+    }
+
+    public void SetHealthBar(int healthPoints, int maxHealth)
+    {
+        healthBar.fillAmount = ((float)healthPoints / (float)maxHealth);
     }
 
     public void InitCoolDownBar()
@@ -161,11 +185,6 @@ public class UINavigator : MonoBehaviour
     public void SetCoolDownBar(float timer, float waitTime)
     {
         coolDownBar.fillAmount = timer / waitTime;
-    }
-
-    public void LoadScene(int index)
-    {
-        StartCoroutine(FadeOut(index));
     }
 
     public void SetMusicVolume(float volume)
@@ -206,10 +225,16 @@ public class UINavigator : MonoBehaviour
         highScore.text = hs.ToString();
     }
 
-    public void SetTutorialText(string text, bool isOn)
+    public void SetTopTutorialText(string text, bool isOn = true)
     {
-        clickText.text = text;
-        clickText.gameObject.SetActive(isOn);
+        topTutText.text = text;
+        topTutText.gameObject.SetActive(isOn);
+    }
+
+    public void SetBottomTutorialText(string text, bool isOn = true)
+    {
+        bottomTutText.text = text;
+        bottomTutText.gameObject.SetActive(isOn);
     }
 
     public void SetEffectVolume(float volume)
@@ -255,11 +280,6 @@ public class UINavigator : MonoBehaviour
         OnPauseStateChanged();
     }
 
-    public void Quit()
-    {
-        Application.Quit();
-    }
-
     private IEnumerator FadeIn()
 	{
 		while (fader.alpha > 0f)
@@ -284,6 +304,12 @@ public class UINavigator : MonoBehaviour
     {
         gameScreen.SetActive(false);
         gameOverScreen.SetActive(true);
+    }
+
+    public void EndTutorial()
+    {
+        gameScreen.SetActive(false);
+        tutorialEndScreen.SetActive(true);
     }
     
     // Settings
@@ -355,6 +381,8 @@ public class UINavigator : MonoBehaviour
 
         foreach (PlayerLeaderboardEntry item in result.Leaderboard)
         {
+            if (item.Position > 49) break;
+            
             GameObject newRow = Instantiate(rowPrefab, rowsParent);
             Text[] rowTexts = newRow.GetComponentsInChildren<Text>();
 

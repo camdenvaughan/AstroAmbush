@@ -28,11 +28,16 @@ public class EnemyShip : ShipBase
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("PlayerBullet"))
+        if (GameManager.GetState() == GameManager.GameState.Active ||
+            GameManager.GetState() == GameManager.GameState.Tutorial)
         {
-            Explode();
-            GameManager.AddToScore(5f);
+            if (other.CompareTag("PlayerBullet"))
+            {
+                Explode();
+                GameManager.AddToScore(5f);
+            }
         }
+
     }
 
     private void Explode()

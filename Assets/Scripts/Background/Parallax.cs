@@ -22,9 +22,11 @@ public class Parallax : MonoBehaviour
     void Start()
     {
         startPos = transform.position;
-        
-        size.x = GetComponent<MeshRenderer>().bounds.size.x;
-        size.y = GetComponent<MeshRenderer>().bounds.size.y;
+        if (state == ParallaxType.Game)
+        {
+            size.x = GetComponent<MeshRenderer>().bounds.size.x;
+            size.y = GetComponent<MeshRenderer>().bounds.size.y;
+        }
     }
 
     // Update is called once per frame
