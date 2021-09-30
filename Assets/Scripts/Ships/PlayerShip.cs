@@ -38,6 +38,8 @@ public class PlayerShip : ShipBase
     private int tutorialShots;
     private bool hasSpawnedTutorialShips = false;
     private GameObject[] tutorialEnemies = new GameObject[2];
+
+    private bool isInvincible = false;
     
     protected override void SetDependencies()
     {
@@ -67,22 +69,23 @@ public class PlayerShip : ShipBase
             Shoot();
             return;
         }
-        else if (GameManager.GetState() == GameManager.GameState.Tutorial)
+        
+        if (GameManager.GetState() == GameManager.GameState.Tutorial)
         {
             switch (GameManager.GetTutorialStage())
             {
                 case 0:
                     Stage0();
-                    break;
+                    return;
                 case 1:
                     Stage1();
-                    break;
+                    return;
                 case 2:
                     Stage2();
-                    break;
+                    return;
                 case 3:
                     Stage3();
-                    break;
+                    return;
             }
         }
 
@@ -157,6 +160,7 @@ public class PlayerShip : ShipBase
     
     private void OnTriggerEnter(Collider other)
     {
+        if (isInvincible) return;
         if (GameManager.GetState() == GameManager.GameState.Active)
         {
             if (other.CompareTag("Enemy"))
@@ -171,6 +175,7 @@ public class PlayerShip : ShipBase
                     // Play Sound
                     // Animate
                     anim.SetTrigger("hit");
+                    isInvincible = true;
                 }
                 else
                     Explode();
@@ -217,13 +222,19 @@ public class PlayerShip : ShipBase
             particleSystems[i].Stop();
         }
     }
+
+    private void TurnOffInvinsibility()
+    {
+        isInvincible = false;
+    }
+    
     
     private void OnPauseStateChanged(object source, EventArgs e)
     {
         SetControls();
         GameManager.PauseGame();
     }
-    
+
     // Tutorial Functions
 
     private void Stage0() // Just Fly
@@ -274,10 +285,25 @@ public class PlayerShip : ShipBase
         Move();
         Shoot();
 
-        if (!tutorialEnemies[0].activeInHierarchy && !tutorialEnemies[1].activeInHierarchy)
+        int i = 0;
+        foreach (GameObject enemy in tutorialEnemies)
         {
-            GameManager.EndTutorial();
+            if (!enemy.activeInHierarchy)
+            {
+                i++;
+                continue;
+            }
+
+            float dist = Vector3.Distance(enemy.transform.position, transform.position);
+
+            if (dist > 100f)
+            {
+                int rand = Random.Range(0, spawnPoints.Length);
+                enemy.transform.position = spawnPoints[rand].transform.position;
+            }
         }
+        if (i > 1)
+            GameManager.EndTutorial();
     }
 
     private void ResetStage()
@@ -301,7 +327,9 @@ public class PlayerShip : ShipBase
         string text = "Your Ship Exploded! ";
         text += PlayerPrefs.GetInt("controlLayout", 0) == 0 ? "Click Mouse Button " : "Press Space Bar ";
         text += "to Try Again!";
-        GameManager.SetUniqueTutorialText(text);
+        uiNav.SetTopTutorialText(text, true);
+        uiNav.SetBottomTutorialText("", true);
         currentHealth = maxHealthPoints;
+        uiNav.SetHealthBar(currentHealth, maxHealthPoints);
     }
 }

@@ -47,9 +47,10 @@ public class PlayFabManager : MonoBehaviour
 
     public void UpdateDisplayName()
     {
+        string name = PlayerPrefs.GetString("displayName", "NEW");
         var request = new UpdateUserTitleDisplayNameRequest()
         {
-            DisplayName = PlayerPrefs.GetString("displayName", "NEW"),
+            DisplayName = name,
         };
         PlayFabClientAPI.UpdateUserTitleDisplayName(request, OnUpdateDisplayName, OnError);
     }
