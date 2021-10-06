@@ -8,9 +8,11 @@ using UnityEngine.PlayerLoop;
 
 public class PlayFabManager : MonoBehaviour
 {
-
+    public string name = "NEW";
     void Start()
     {
+        name = PlayerPrefs.GetString("displayName", "NEW");
+
         Login();
     }
 
@@ -47,10 +49,9 @@ public class PlayFabManager : MonoBehaviour
 
     public void UpdateDisplayName()
     {
-        string name = PlayerPrefs.GetString("displayName", "NEW");
         var request = new UpdateUserTitleDisplayNameRequest()
         {
-            DisplayName = name,
+            DisplayName = name
         };
         PlayFabClientAPI.UpdateUserTitleDisplayName(request, OnUpdateDisplayName, OnError);
     }

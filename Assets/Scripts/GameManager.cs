@@ -1,3 +1,4 @@
+using System.Timers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -102,11 +103,7 @@ public class GameManager : MonoBehaviour
 
         uiNav.SetTopTutorialText(text, isOn);
     }
-
-    public static void SetUniqueTutorialText(string text)
-    {
-        current.uiNav.SetTopTutorialText(text, true);
-    }
+    
     public static GameState GetState()
     {
         return current.state;
@@ -173,6 +170,7 @@ public class GameManager : MonoBehaviour
 
     public static void AddToScore(float scoreToAdd)
     {
+        current.timer += scoreToAdd;
         current.uiNav.AddToScore(scoreToAdd);
     }
 

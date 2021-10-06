@@ -220,8 +220,8 @@ public class UINavigator : MonoBehaviour
         {
             hs = iScore;
             PlayerPrefs.SetInt("highscore", iScore);
-            GetComponent<PlayFabManager>().SendLeaderBoard(iScore);
         }
+        GetComponent<PlayFabManager>().SendLeaderBoard(iScore);
         highScore.text = hs.ToString();
     }
 
@@ -381,8 +381,6 @@ public class UINavigator : MonoBehaviour
 
         foreach (PlayerLeaderboardEntry item in result.Leaderboard)
         {
-            if (item.Position > 49) break;
-            
             GameObject newRow = Instantiate(rowPrefab, rowsParent);
             Text[] rowTexts = newRow.GetComponentsInChildren<Text>();
 
