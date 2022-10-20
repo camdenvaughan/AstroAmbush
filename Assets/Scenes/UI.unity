@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731713, g: 0.13414736, b: 0.121078536, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5898,7 +5898,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: https://www.CamdenVaughan.com
+          m_StringArgument: https://www.youtube.com/channel/UC0n30BuM2UNF5i_43gt-U2A
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1921247630
@@ -7364,6 +7364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d9fe5d15208a90449e42fad744f5609, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  displayName: NEW
 --- !u!1 &3087034028277388022
 GameObject:
   m_ObjectHideFlags: 0
@@ -7752,7 +7753,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3087034028942249261
 RectTransform:
   m_ObjectHideFlags: 0

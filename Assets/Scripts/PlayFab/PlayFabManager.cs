@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
-using UnityEngine.PlayerLoop;
+using UnityEngine.Serialization;
 
 public class PlayFabManager : MonoBehaviour
 {
-    public string name = "NEW";
+    [FormerlySerializedAs("name")] public string displayName = "NEW";
     void Start()
     {
-        name = PlayerPrefs.GetString("displayName", "NEW");
+        displayName = PlayerPrefs.GetString("displayName", "NEW");
 
         Login();
     }
@@ -20,7 +20,7 @@ public class PlayFabManager : MonoBehaviour
     {
         var request = new LoginWithCustomIDRequest
         {
-            CustomId = SystemInfo.deviceUniqueIdentifier,
+            CustomId = DeviceUniqueIdentifier,
             CreateAccount = true,
             InfoRequestParameters = new GetPlayerCombinedInfoRequestParams
             {
@@ -51,7 +51,7 @@ public class PlayFabManager : MonoBehaviour
     {
         var request = new UpdateUserTitleDisplayNameRequest()
         {
-            DisplayName = name
+            DisplayName = displayName
         };
         PlayFabClientAPI.UpdateUserTitleDisplayName(request, OnUpdateDisplayName, OnError);
     }
@@ -92,5 +92,31 @@ public class PlayFabManager : MonoBehaviour
         };
         
         PlayFabClientAPI.GetLeaderboard(request, GetComponent<UINavigator>().OnLeaderBoardGet, OnError);
+    }
+    
+    public static string DeviceUniqueIdentifier
+    {
+        get
+        {
+            var deviceId = "";
+ 
+ 
+#if UNITY_EDITOR
+            deviceId = SystemInfo.deviceUniqueIdentifier + "-editor1";
+#elif UNITY_ANDROID
+                AndroidJavaClass up = new AndroidJavaClass ("com.unity3d.player.UnityPlayer");
+                AndroidJavaObject currentActivity = up.GetStatic<AndroidJavaObject> ("currentActivity");
+                AndroidJavaObject contentResolver = currentActivity.Call<AndroidJavaObject> ("getContentResolver");
+                AndroidJavaClass secure = new AndroidJavaClass ("android.provider.Settings$Secure");
+                deviceId = secure.CallStatic<string> ("getString", contentResolver, "android_id");
+#elif UNITY_WEBGL
+                if (!PlayerPrefs.HasKey("UniqueIdentifier"))
+                    PlayerPrefs.SetString("UniqueIdentifier", Guid.NewGuid().ToString());
+                deviceId = PlayerPrefs.GetString("UniqueIdentifier");
+#else
+                deviceId = SystemInfo.deviceUniqueIdentifier;
+#endif
+            return deviceId;
+        }
     }
 }

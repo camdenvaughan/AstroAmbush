@@ -400,7 +400,7 @@ namespace PlayFab.CloudScriptModels
         /// </summary>
         public Dictionary<string,string> CustomTags;
         /// <summary>
-        /// The entity to perform this action on.
+        /// The optional entity to perform this action on. Defaults to the currently logged in entity.
         /// </summary>
         public EntityKey Entity;
         /// <summary>
@@ -439,7 +439,7 @@ namespace PlayFab.CloudScriptModels
         /// </summary>
         public Dictionary<string,string> CustomTags;
         /// <summary>
-        /// The entity to perform this action on.
+        /// The optional entity to perform this action on. Defaults to the currently logged in entity.
         /// </summary>
         public EntityKey Entity;
         /// <summary>
@@ -511,6 +511,40 @@ namespace PlayFab.CloudScriptModels
         /// The name the function was registered under.
         /// </summary>
         public string FunctionName;
+        /// <summary>
+        /// The trigger type for the function.
+        /// </summary>
+        public string TriggerType;
+    }
+
+    [Serializable]
+    public class GetFunctionRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
+        /// The name of the function to register
+        /// </summary>
+        public string FunctionName;
+    }
+
+    [Serializable]
+    public class GetFunctionResult : PlayFabResultCommon
+    {
+        /// <summary>
+        /// The connection string for the storage account containing the queue for a queue trigger Azure Function.
+        /// </summary>
+        public string ConnectionString;
+        /// <summary>
+        /// The URL to be invoked to execute an HTTP triggered function.
+        /// </summary>
+        public string FunctionUrl;
+        /// <summary>
+        /// The name of the queue for a queue trigger Azure Function.
+        /// </summary>
+        public string QueueName;
         /// <summary>
         /// The trigger type for the function.
         /// </summary>
@@ -638,7 +672,8 @@ namespace PlayFab.CloudScriptModels
         FacebookInstantGames,
         OpenIdConnect,
         Apple,
-        NintendoSwitchAccount
+        NintendoSwitchAccount,
+        GooglePlayGames
     }
 
     [Serializable]
@@ -857,7 +892,7 @@ namespace PlayFab.CloudScriptModels
         /// </summary>
         public Dictionary<string,string> CustomTags;
         /// <summary>
-        /// The entity to perform this action on.
+        /// The optional entity to perform this action on. Defaults to the currently logged in entity.
         /// </summary>
         public EntityKey Entity;
         /// <summary>
@@ -1076,7 +1111,7 @@ namespace PlayFab.CloudScriptModels
         /// </summary>
         public Dictionary<string,string> CustomTags;
         /// <summary>
-        /// The name of the function to unregister
+        /// The name of the function to register
         /// </summary>
         public string FunctionName;
     }
